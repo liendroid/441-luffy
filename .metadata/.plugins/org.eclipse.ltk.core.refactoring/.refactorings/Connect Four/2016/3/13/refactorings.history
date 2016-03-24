@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring accessors="true" comment="Delete element from project &apos;Connect Four&apos;&#x0D;&#x0A;- Original project: &apos;Connect Four&apos;&#x0D;&#x0A;- Original element: &apos;gui.MainMenu.textField&apos;" description="Delete element" element1="/&lt;gui{MainMenu.java[MainMenu^textField" elements="1" flags="589830" id="org.eclipse.jdt.ui.delete" resources="0" stamp="1458843334004" subPackages="false" version="1.0"/>
+</session>

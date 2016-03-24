@@ -1,0 +1,54 @@
+package gui;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import java.awt.FlowLayout;
+import javax.swing.JTextField;
+import java.awt.GridLayout;
+import javax.swing.SpringLayout;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+
+public class MainMenu extends JFrame {
+	private JTextField userTextField;
+	private JTextField pwTextField;
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					MainMenu frame = new MainMenu();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public MainMenu() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 653, 551);
+		getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
+		
+		userTextField = new JTextField();
+		getContentPane().add(userTextField);
+		userTextField.setColumns(10);
+		
+		pwTextField = new JTextField();
+		getContentPane().add(pwTextField);
+		pwTextField.setColumns(10);
+
+	}
+
+}
