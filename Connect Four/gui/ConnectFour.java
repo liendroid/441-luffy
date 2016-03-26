@@ -6,14 +6,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
 import java.awt.CardLayout;
-import javax.swing.JTextField;
 
-public class GameLobby extends JFrame {
+public class ConnectFour extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
 
 	/**
 	 * Launch the application.
@@ -22,7 +19,7 @@ public class GameLobby extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GameLobby frame = new GameLobby();
+					ConnectFour frame = new ConnectFour();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -34,24 +31,19 @@ public class GameLobby extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public GameLobby() {
+	public ConnectFour() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 692, 548);
+		setBounds(100, 100, 996, 742);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new CardLayout(0, 0));
 		
-		JPanel panel_1 = new JPanel();
-		contentPane.add(panel_1, "name_4149590427242570");
+		JPanel gameLobbyPanel = new JPanel();
+		contentPane.add(gameLobbyPanel, "name_4149778476163546");
 		
-		JPanel panel = new JPanel();
-		contentPane.add(panel, "name_4149556333705222");
-		panel.setLayout(null);
-		
-		textField = new JTextField();
-		textField.setBounds(44, 146, 86, 20);
-		panel.add(textField);
-		textField.setColumns(10);
+		JPanel mainMenuPanel = new JPanel();
+		contentPane.add(mainMenuPanel, "name_4149736088218691");
 	}
+
 }

@@ -19,7 +19,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class MainMenu extends JFrame {
+public class MMenu extends JFrame {
 	private JTextField userTextField;
 	private JPasswordField passwordField;
 	/**
@@ -29,7 +29,7 @@ public class MainMenu extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainMenu frame = new MainMenu();
+					MMenu frame = new MMenu();
 					GameLobby gFrame = new GameLobby();
 					frame.setVisible(true);
 					gFrame.setVisible(false);
@@ -43,7 +43,7 @@ public class MainMenu extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MainMenu() {
+	public MMenu() {
 		getContentPane().setFont(new Font("Avenir Next Rounded Pro Medium", Font.PLAIN, 14));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 980, 677);
