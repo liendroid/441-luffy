@@ -1,0 +1,72 @@
+package gui;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import java.awt.CardLayout;
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.awt.Color;
+import javax.swing.JTextField;
+
+public class ConnectFour extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField textField;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					ConnectFour frame = new ConnectFour();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public ConnectFour() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 996, 742);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(new CardLayout(0, 0));
+		
+		JPanel mainMenuPanel = new JPanel();
+		contentPane.add(mainMenuPanel, "name_4149736088218691");
+		mainMenuPanel.setLayout(null);
+		
+		JLabel lblConnectFour = new JLabel("Connect Four");
+		lblConnectFour.setForeground(new Color(0, 102, 204));
+		lblConnectFour.setFont(new Font("Bebas Neue Regular", Font.PLAIN, 50));
+		lblConnectFour.setBounds(353, 68, 238, 53);
+		mainMenuPanel.add(lblConnectFour);
+		
+		JLabel lblUsername = new JLabel("Username");
+		lblUsername.setForeground(new Color(51, 153, 204));
+		lblUsername.setFont(new Font("Bebas Neue Regular", Font.PLAIN, 40));
+		lblUsername.setBounds(52, 199, 141, 41);
+		mainMenuPanel.add(lblUsername);
+		
+		textField = new JTextField();
+		textField.setFont(new Font("Lato", Font.PLAIN, 20));
+		textField.setBounds(52, 251, 238, 35);
+		mainMenuPanel.add(textField);
+		textField.setColumns(10);
+		
+		JPanel gameLobbyPanel = new JPanel();
+		contentPane.add(gameLobbyPanel, "name_4149778476163546");
+	}
+}
