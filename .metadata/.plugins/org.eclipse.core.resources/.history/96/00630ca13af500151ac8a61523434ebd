@@ -1,0 +1,45 @@
+package network;
+
+/* umm create a client object fill in the methods connect to the server with the same port. The server will
+ * have like secondary ports for everyone thats connected so don't worry about it.
+ * PEOPLE ARE PORTS UNTIL WE CAN LINK THEM WITH ACCOUNTS OR SOMETHING w.e this is a crappy version
+ * 
+ */
+
+
+import java.io.*; 
+import java.net.*; 
+import java.util.stream.Stream;
+
+public class TestClient { 
+
+	private Socket clientSocket;
+	public TestClient(String IP, int port) throws Exception
+	{
+		
+        // Initialize a client socket connection to the server
+        Socket clientSocket = new Socket(IP, port);
+
+        // Initialize input and an output stream for the connection(s)
+        DataOutputStream outBuffer = new DataOutputStream(clientSocket.getOutputStream()); 
+        while(true)
+        {
+        	
+        }
+
+    }
+    // send terminate receive who knows you terminated loool
+    public void terminate() throws IOException{
+    	String line = "terminate";
+    	// Send to the server
+        outBuffer.writeBytes(line + '\n'); 
+        
+        //from the server
+    	line = inBuffer.readLine();
+    	System.out.println("Server: " +line);
+    	// Close the socket
+        clientSocket.close();
+    	
+    }
+}
+
