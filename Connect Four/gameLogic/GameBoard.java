@@ -1,5 +1,6 @@
 package gameLogic;
 
+
 public class GameBoard {
 
 	//creates the board and handle the board properties 

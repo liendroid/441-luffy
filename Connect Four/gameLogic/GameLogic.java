@@ -1,16 +1,22 @@
 package gameLogic;
+
 import java.util.*;
 
 public class GameLogic {
 	
 	// handles all of the game logic 
 	
+	private static Scanner sc;
+	private static PlayerOne p1;
+	private static PlayerTwo p2;
+
 	public static void main (String args[]){
-		String input = null;
 		boolean gameDone = false;
-		PlayerOne p1 = new PlayerOne();
-		PlayerTwo p2 = new PlayerTwo();
-		Scanner sc = new Scanner(System.in);
+		boolean validMoveP1 = false;
+		boolean validMoveP2 = false;
+		setP1(new PlayerOne());
+		setP2(new PlayerTwo());
+		sc = new Scanner(System.in);
 		
 		// grabs the state of the game board 
 		GameBoard aBoard = new GameBoard();
@@ -19,44 +25,79 @@ public class GameLogic {
 
 		// game loop
 		while (gameDone != true){
-			
-			// asks for input for player 1 row move 
-			System.out.println("Player One Move {R}: ");
-			int p1r = sc.nextInt();
-			// asks for input for player 1 column move 
-			System.out.println("Player One Move {C}: ");
-			int p1c = sc.nextInt();
-			// places move on the board 
-			board[p1r][p1c] = p1.playerPiece;
-			// checks win condition 
-			printBoard(board);
-			if (checkWin(board, p1.playerPiece) || checkDraw(board)){
-				gameDone = true;
+			validMoveP1 = false;
+			validMoveP2 = false;
+			while(validMoveP1 != true){
+				printBoard(board);
+				System.out.println("Player One Select A Column: ");
+				int p1c = sc.nextInt();
+				validMoveP1 = validMove(p1c, board, p1.playerPiece);
+				System.out.println("-----------------------------");
+				
+			}
+			if (checkWin(board, PlayerOne.playerPiece) || checkDraw(board)){
+				printBoard(board);
 				break;
 			}
-			// asks for input for player 2 row move
-			System.out.println("Player Two Move {R}: ");
-			int p2r = sc.nextInt();
-			// asks for input for player 2 column move
-			System.out.println("Player Two Move {C}: ");
-			int p2c = sc.nextInt();
-			// places move on the board 
-			board[p2r][p2c] = p2.playerPiece;
-			printBoard(board);
-			// checks win and draw condition 
-			if(checkWin(board, p2.playerPiece) || checkDraw(board)){
-				gameDone = true;
+
+			while(validMoveP2 != true){
+				printBoard(board);
+				System.out.println("Player Two Select A Column: ");
+				int p2c = sc.nextInt();
+				validMoveP2 = validMove(p2c, board, p2.playerPiece);
+				System.out.println("-----------------------------");
+			}
+			
+			if (checkWin(board, PlayerTwo.playerPiece) || checkDraw(board)){
+				printBoard(board);
 				break;
 			}
 			
 		}
-
+	}
+	
+	public static boolean validMove(int move, char board[][], char token){
+		if(move > 6){
+			return false;
+		}
+		else if(board[5][move] == '.'){
+			board[5][move] = token;
+			return true;
+		}
+		else if(board[4][move] == '.'){
+			board[4][move] = token;
+			return true;
+		}
+		else if(board[3][move] == '.'){
+			board[3][move] = token;
+			return true;
+		}
+		else if(board[2][move] == '.'){
+			board[2][move] = token;
+			return true;
+		}
+		else if(board[1][move] == '.'){
+			board[1][move] = token;
+			return true;
+		}
+		else if(board[0][move] == '.'){
+			board[0][move] = token;
+			return true;
+		}
+		return false;
 	}
 
 	// Checks win condition
 	public static boolean checkWin(char board[][], char token){
-		if(checkHorizontalWin(board, token)  || checkVerticalWin(board, token) )
+		if(checkHorizontalWin(board, token)  || checkVerticalWin(board, token) || checkDiagonalDown(board, token) || checkDiagonalUp(board, token)){
+			System.out.println("game over");
+			if(token == 'B')
+				System.out.println("Player one wins!!");
+			else if(token == 'R')
+				System.out.println("Player two wins!!");
 			return true;
+		}
+			
 		//checkDraw(board);
 		return false;
 	}
@@ -80,7 +121,9 @@ public class GameLogic {
 
 	// will print the board 
     private static void printBoard(char [][] board){
+    	System.out.println("  0 1 2 3 4 5 6");
         for (int i = 0; i < 6; i++){
+        	System.out.print(i);
             for(int j = 0; j < 7; j++){
                 System.out.print("|"+board[i][j]);
             }
@@ -100,7 +143,6 @@ public class GameLogic {
 				else
 					counter = 0;
 				if(counter == 4){
-					System.out.println("game over");
 					return true;
 				
 				}
@@ -120,17 +162,62 @@ public class GameLogic {
 				else
 					counter = 0;
 				if(counter == 4){
-					System.out.println("game over");
 					return true;
 				}
 			}
 		}
 		return false;
 	}
-	
-	// check diagonal win
-	// not yet implemented 
-	public boolean checkDiagonalWin(){
-		return true;
+
+
+
+		//Check for 4 tokens in a row diagonally down to the right
+	static boolean checkDiagonalDown(char board[][], char token) {
+	     int row, col;		          //row,column variables
+	     //Check diagonal "\"
+	     for (row=0; row<=2; row++) {	//diagonal winner must include rows 0, 1, or 2
+	       for (col=0; col<=3; col++) {//diagonal winner must include columns 0, 1, 2, or 3
+		 if (board[row][col] == token &&    //this cell has token
+		   board[row+1][col+1] == token &&    //cell one down, one right has token
+		   board[row+2][col+2] == token &&    //cell two down, two right has token
+		   board[row+3][col+3] == token) {   //cell three down, three right has token
+		     return true;		      //we have a winner
+		    }
+		  }
+	         }
+	       return false;
+	}
+
+	//Check for 4 tokens in a row diagonally down to the left
+	static boolean checkDiagonalUp(char board[][], char token) {
+		int row, col;			//row,column variables
+		//Check diagonal "/"
+		for (row=0; row<=2; row++) {	  //4 diagonal must include rows 0, 1, or 2
+		    for (col=3; col<=6; col++){ //4 diagonal must include columns 3, 4, 5, or 6
+			if (board[row][col] == token &&      //this cell has token
+			    board[row+1][col-1] == token &&  //one down, one left hast token
+			    board[row+2][col-2] == token &&  //two down, two left has token
+			    board[row+3][col-3] == token){ //three down, three left has token
+				return true;	        //we have a winner
+			 }
+		      }
+		  }
+		      return false;
+	}
+
+	public static PlayerOne getP1() {
+		return p1;
+	}
+
+	public static void setP1(PlayerOne p1) {
+		GameLogic.p1 = p1;
+	}
+
+	public static PlayerTwo getP2() {
+		return p2;
+	}
+
+	public static void setP2(PlayerTwo p2) {
+		GameLogic.p2 = p2;
 	}
 }

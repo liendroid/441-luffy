@@ -1,5 +1,6 @@
 package gameLogic;
 
+
 public class PlayerTwo {
 	
 	public static final int playerID = 2;
