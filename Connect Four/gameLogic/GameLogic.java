@@ -17,7 +17,7 @@ public class GameLogic {
 		setP1(new PlayerOne());
 		setP2(new PlayerTwo());
 		sc = new Scanner(System.in);
-		
+		String move = null;
 		// grabs the state of the game board 
 		GameBoard aBoard = new GameBoard();
 		char[][] board = aBoard.getBoard();
@@ -27,32 +27,37 @@ public class GameLogic {
 		while (gameDone != true){
 			validMoveP1 = false;
 			validMoveP2 = false;
+			int p1c = -1;
+			int p2c = -1;
 			while(validMoveP1 != true){
 				printBoard(board);
 				System.out.println("Player One Select A Column: ");
-				int p1c = sc.nextInt();
+				p1c = sc.nextInt();
 				validMoveP1 = validMove(p1c, board, p1.playerPiece);
 				System.out.println("-----------------------------");
 				
 			}
+
 			if (checkWin(board, PlayerOne.playerPiece) || checkDraw(board)){
-				printBoard(board);
+				move = p1c + "PlayerOneWin" + p1.playerName; // this is what will be sent to the server
+				printBoard(board); // should be sent from the server 
 				break;
 			}
-
+			move = p1c + "" + p1.playerName; // this is what will be sent to the server
 			while(validMoveP2 != true){
 				printBoard(board);
 				System.out.println("Player Two Select A Column: ");
-				int p2c = sc.nextInt();
+				p2c = sc.nextInt();
 				validMoveP2 = validMove(p2c, board, p2.playerPiece);
 				System.out.println("-----------------------------");
 			}
 			
 			if (checkWin(board, PlayerTwo.playerPiece) || checkDraw(board)){
-				printBoard(board);
+				move = p2c + "PlayerTwoWin" + p2.playerName; // this is what will be sent to the server
+				printBoard(board); // should be sent from the server
 				break;
 			}
-			
+			move = p2c + "" + p2.playerName; // this is what will be sent to the server
 		}
 	}
 	

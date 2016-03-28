@@ -13,6 +13,7 @@ public class Runner {
 		DBConnect connection = new DBConnect();
 		SQLQueries queries = new SQLQueries();
 		boolean loggedOut = false;
+		String finalUsername = null;
 		
 		while(!loggedOut) {
 			
@@ -22,6 +23,7 @@ public class Runner {
 			System.out.println("3: for a users losses.");
 			System.out.println("4: for adding a user");
 			System.out.println("5: for deleting a user");
+			System.out.println("6: for logging in");
 			System.out.println("Logout to stop the program.");
 			
 			String input = userInput.nextLine();
@@ -79,9 +81,30 @@ public class Runner {
 					e.printStackTrace();
 				}
 				
+			} else if (input.equals("6")) {
+				
+				try {
+					System.out.println("Please enter your username");
+					String usernameAttempt = userInput.nextLine();
+					System.out.println("Please enter your password");
+					String passwordAttempt = userInput.nextLine();
+					queries.login(connection.SQLConnection(), "connectfour", usernameAttempt, passwordAttempt);
+					if(queries.loginCredentials != null) {
+						finalUsername = queries.loginCredentials.substring(0, queries.loginCredentials.indexOf("|"));
+						System.out.printf("You are now logged in as: %s\n", finalUsername);
+					} else {
+						System.out.println("That is an invalid username and password combination");
+					}
+
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				
 			} else if (input.equals("Logout")) {
 					
 				loggedOut = true;
+				finalUsername = null;
 			}
 		}
 	}
