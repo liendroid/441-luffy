@@ -8,6 +8,32 @@ import java.sql.Statement;
 
 public class SQLQueries {
 
+	String loginCredentials;
+	
+	public String login(Connection myConnection, String myDataBase, String inputUsername, String inputPassword) throws SQLException {
+
+	    Statement statement = null;
+	    String query = "select username, password from " + myDataBase + ".users where username = '" + inputUsername 
+	    		+ "' and password = '" + inputPassword + "'";
+	   
+	    try {
+	        statement = myConnection.createStatement();
+	        ResultSet results = statement.executeQuery(query);
+	        while(results.next()) {
+	        	String userName = results.getString("username");
+	        	String passWord = results.getString("password");
+	        	loginCredentials = userName + "|" + passWord;
+	        	System.out.println(loginCredentials);
+	        }
+	    } catch (SQLException e) {
+	        System.out.println(e);
+	    } finally {
+	        if (statement != null) { 
+	        	statement.close(); 
+	        }
+	    }
+		return loginCredentials;
+	}
 	
 	public void viewUsers(Connection myConnection, String myDataBase) throws SQLException {
 
