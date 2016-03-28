@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.CardLayout;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.List;
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -24,6 +25,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.border.LineBorder;
 
+import network.Client;
+
 public class ConnectFour extends JFrame {
 
 	private JPanel contentPane;
@@ -31,6 +34,7 @@ public class ConnectFour extends JFrame {
 	private JPasswordField passwordTxtfield;
 	private JLabel lblSignUp;
 	private JTextField chatTxtField;
+	//private Client client;
 
 	/**
 	 * Launch the application.
@@ -39,6 +43,7 @@ public class ConnectFour extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					//Client client = new Client();
 					ConnectFour frame = new ConnectFour();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -174,16 +179,19 @@ public class ConnectFour extends JFrame {
 	
 	public void switchCards()
 	{
-		if(!usernameTxtfield.getText().isEmpty() && !passwordTxtfield.getPassword().toString().isEmpty())
+		boolean userEmpty = usernameTxtfield.getText().isEmpty();
+		boolean pwEmpty = passwordTxtfield.getPassword().toString().isEmpty();
+		if(!userEmpty && !pwEmpty)
 		{
+			//client.login(outBuffer, inBuffer)
 			CardLayout cLayout = (CardLayout) contentPane.getLayout();
 			cLayout.show(contentPane, "gameLobbyCard");
 		}
-		else if(usernameTxtfield.getText().isEmpty())
+		else if(userEmpty)
 		{
 			JOptionPane.showMessageDialog(null, "Username field cannot be empty");
 		}
-		else if(passwordTxtfield.getPassword().toString().isEmpty())
+		else if(pwEmpty)
 		{
 			JOptionPane.showMessageDialog(null, "Password field cannot be empty");
 		}
