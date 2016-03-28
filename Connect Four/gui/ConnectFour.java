@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -18,6 +19,10 @@ import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import java.awt.event.MouseEvent;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextPane;
+import javax.swing.border.LineBorder;
 
 public class ConnectFour extends JFrame {
 
@@ -25,6 +30,7 @@ public class ConnectFour extends JFrame {
 	private JTextField usernameTxtfield;
 	private JPasswordField passwordTxtfield;
 	private JLabel lblSignUp;
+	private JTextField chatTxtField;
 
 	/**
 	 * Launch the application.
@@ -62,23 +68,56 @@ public class ConnectFour extends JFrame {
 		gameLobbyPanel.setLayout(null);
 		
 		JPanel gamesListPanel = new JPanel();
-		gamesListPanel.setBounds(46, 73, 705, 375);
+		gamesListPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		gamesListPanel.setBounds(46, 62, 705, 375);
 		gameLobbyPanel.add(gamesListPanel);
 		
 		JLabel lblGames = new JLabel("Games");
 		lblGames.setForeground(new Color(0, 102, 204));
 		lblGames.setFont(new Font("Bebas Neue Regular", Font.PLAIN, 40));
-		lblGames.setBounds(46, 36, 102, 33);
+		lblGames.setBounds(46, 25, 102, 33);
 		gameLobbyPanel.add(lblGames);
 		
-		JButton btnNewButton = new JButton("Create");
-		btnNewButton.setFont(new Font("Roboto Condensed", Font.PLAIN, 20));
-		btnNewButton.setBounds(536, 459, 102, 33);
-		gameLobbyPanel.add(btnNewButton);
+		JButton btnCreate = new JButton("Create");
+		btnCreate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Game newGame = new Game();
+				newGame.setVisible(true);
+			}
+		});
+		btnCreate.setFont(new Font("Roboto Condensed", Font.PLAIN, 20));
+		btnCreate.setBounds(536, 448, 102, 33);
+		gameLobbyPanel.add(btnCreate);
 		
 		JList list = new JList();
-		list.setBounds(761, 73, 199, 375);
+		list.setBounds(761, 62, 199, 375);
 		gameLobbyPanel.add(list);
+		
+		JButton btnJoinGame = new JButton("Join");
+		btnJoinGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Game joinGame = new Game();
+				joinGame.setVisible(true);
+			}
+		});
+		btnJoinGame.setFont(new Font("Roboto Condensed", Font.PLAIN, 20));
+		btnJoinGame.setBounds(648, 448, 103, 31);
+		gameLobbyPanel.add(btnJoinGame);
+		
+		JTextPane chatHistoryTxtPane = new JTextPane();
+		chatHistoryTxtPane.setFont(new Font("Roboto Condensed", Font.PLAIN, 12));
+		chatHistoryTxtPane.setEditable(false);
+		chatHistoryTxtPane.setBounds(44, 489, 916, 140);
+		gameLobbyPanel.add(chatHistoryTxtPane);
+		
+		chatTxtField = new JTextField();
+		chatTxtField.setBounds(44, 641, 851, 41);
+		gameLobbyPanel.add(chatTxtField);
+		chatTxtField.setColumns(10);
+		
+		JButton btnSend = new JButton(">");
+		btnSend.setBounds(905, 644, 55, 38);
+		gameLobbyPanel.add(btnSend);
 		
 		JLabel lblConnectFour = new JLabel("Connect Four");
 		lblConnectFour.setForeground(new Color(0, 102, 204));
@@ -135,7 +174,21 @@ public class ConnectFour extends JFrame {
 	
 	public void switchCards()
 	{
-		CardLayout cLayout = (CardLayout) contentPane.getLayout();
-		cLayout.show(contentPane, "gameLobbyCard");
+		if(!usernameTxtfield.getText().isEmpty() && !passwordTxtfield.getPassword().toString().isEmpty())
+		{
+			CardLayout cLayout = (CardLayout) contentPane.getLayout();
+			cLayout.show(contentPane, "gameLobbyCard");
+		}
+		else if(usernameTxtfield.getText().isEmpty())
+		{
+			JOptionPane.showMessageDialog(null, "Username field cannot be empty");
+		}
+		else if(passwordTxtfield.getPassword().toString().isEmpty())
+		{
+			JOptionPane.showMessageDialog(null, "Password field cannot be empty");
+		}
+		else {
+			JOptionPane.showMessageDialog(null, "Well this is embarrassing. I don't know what is wrong. Try again please. D:");
+		}
 	}
 }
