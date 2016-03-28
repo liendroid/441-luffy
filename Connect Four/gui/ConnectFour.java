@@ -72,11 +72,6 @@ public class ConnectFour extends JFrame {
 		contentPane.add(gameLobbyPanel, "gameLobbyCard");
 		gameLobbyPanel.setLayout(null);
 		
-		JPanel gamesListPanel = new JPanel();
-		gamesListPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		gamesListPanel.setBounds(46, 62, 705, 375);
-		gameLobbyPanel.add(gamesListPanel);
-		
 		JLabel lblGames = new JLabel("Games");
 		lblGames.setForeground(new Color(0, 102, 204));
 		lblGames.setFont(new Font("Bebas Neue Regular", Font.PLAIN, 40));
@@ -123,6 +118,10 @@ public class ConnectFour extends JFrame {
 		JButton btnSend = new JButton(">");
 		btnSend.setBounds(905, 644, 55, 38);
 		gameLobbyPanel.add(btnSend);
+		
+		JList gamesLobbyList = new JList();
+		gamesLobbyList.setBounds(46, 62, 705, 374);
+		gameLobbyPanel.add(gamesLobbyList);
 		
 		JLabel lblConnectFour = new JLabel("Connect Four");
 		lblConnectFour.setForeground(new Color(0, 102, 204));
