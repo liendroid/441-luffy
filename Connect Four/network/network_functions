@@ -1,0 +1,37 @@
+this is like me talking to myself, pretty much explains my thought process though
+
+(1)Make all your clients connect to the same server (lobby).
+(2)Make a room or search for all open rooms 
+(3)Once a game is chosen/started, send both clients the info to find the other side: 
+	make one of the clients a host for that game, and let the other (selected group of) clients join that host. 
+(4)You make sure they all get disconnected from the lobby 
+(5) Send the board data back and forth
+
+host makes a move
+
+[3:39] 
+draws the board
+
+[3:39] 
+sends it to the player
+
+[3:39] 
+who draws the same board
+
+[3:39] 
+then he makes a move
+
+[3:39] 
+send it to the host
+
+[3:39] 
+who draws the board
+
+[3:39] 
+and sends it back
+
+[3:40] 
+while checking for winning and all that nonsense
+
+[3:40] 
+in between
