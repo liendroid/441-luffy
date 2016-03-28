@@ -21,7 +21,7 @@ public class Game extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField gameChatTxtField;
-	private String[] activePlayers;
+	private Array[] activePlayers;
 
 	/**
 	 * Launch the application.
@@ -30,10 +30,6 @@ public class Game extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					String[] activePlayers = new String[10];
-					activePlayers[0] = "bah";
-					activePlayers[1] = "BossMan";
-					
 					Game frame = new Game();
 					frame.setVisible(true);
 				} catch (Exception e) {

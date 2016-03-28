@@ -34,7 +34,7 @@ public class ConnectFour extends JFrame {
 	private JPasswordField passwordTxtfield;
 	private JLabel lblSignUp;
 	private JTextField chatTxtField;
-	//private Client client;
+	private Client client;
 
 	/**
 	 * Launch the application.
@@ -43,7 +43,7 @@ public class ConnectFour extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					//Client client = new Client();
+					Client client = new Client();
 					ConnectFour frame = new ConnectFour();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -183,7 +183,7 @@ public class ConnectFour extends JFrame {
 		boolean pwEmpty = passwordTxtfield.getPassword().toString().isEmpty();
 		if(!userEmpty && !pwEmpty)
 		{
-			//client.login(outBuffer, inBuffer)
+			client.login(outBuffer, inBuffer)
 			CardLayout cLayout = (CardLayout) contentPane.getLayout();
 			cLayout.show(contentPane, "gameLobbyCard");
 		}

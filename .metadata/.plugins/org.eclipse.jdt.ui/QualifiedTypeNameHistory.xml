@@ -3,4 +3,11 @@
 <fullyQualifiedTypeName name="java.awt.event.MouseAdapter"/>
 <fullyQualifiedTypeName name="java.awt.CardLayout"/>
 <fullyQualifiedTypeName name="gui.ConnectFour"/>
+<fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
+<fullyQualifiedTypeName name="gui.Game"/>
+<fullyQualifiedTypeName name="network.Client"/>
+<fullyQualifiedTypeName name="javax.swing.ListModel"/>
+<fullyQualifiedTypeName name="javax.swing.DefaultListModel"/>
+<fullyQualifiedTypeName name="java.awt.List"/>
+<fullyQualifiedTypeName name="java.lang.reflect.Array"/>
 </qualifiedTypeNameHistroy>

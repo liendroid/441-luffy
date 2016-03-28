@@ -13,7 +13,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.List;
-import java.lang.reflect.Array;
 
 import javax.swing.JList;
 
@@ -21,7 +20,7 @@ public class Game extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField gameChatTxtField;
-	private String[] activePlayers;
+	private ListModel<String> activePlayers;
 
 	/**
 	 * Launch the application.
@@ -30,10 +29,10 @@ public class Game extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					String[] activePlayers = new String[10];
-					activePlayers[0] = "bah";
-					activePlayers[1] = "BossMan";
-					
+					ListModel<String> activePlayers = new DefaultListModel<>();
+					activePlayers.add("King");
+					activePlayers.add("Nopey");
+					activePlayers.add("FingerPain");
 					Game frame = new Game();
 					frame.setVisible(true);
 				} catch (Exception e) {

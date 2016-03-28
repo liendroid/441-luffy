@@ -75,7 +75,7 @@ public class Game extends JFrame {
 		btnGameChatSend.setBounds(920, 670, 50, 27);
 		contentPane.add(btnGameChatSend);
 		
-		JList gamePlayerList = new JList();
+		JList gamePlayerList = new JList(activePlayers);
 		gamePlayerList.setBounds(820, 26, 150, 529);
 		contentPane.add(gamePlayerList);
 	}
