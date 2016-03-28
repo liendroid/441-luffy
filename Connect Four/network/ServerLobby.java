@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class ServerLobby{
+	
 	public static void main(String[] args) throws IOException{
 		// Initialize the selector and register the server socket
 		Selector selector = Selector.open();
@@ -79,7 +80,12 @@ public class ServerLobby{
 				            System.out.println("Client: " + line + "\n");
 				            
 				            if(line.equals("terminate\n")) // if the player sends terminate close the socket *REMOVE THEM FROM THE LIST IS NOT DONE DEAL WITH IT*
+				            {
+				            	String message = getPort(cchannel);
+				            	ports.remove(message);
 				            	key.cancel();
+				            	continue;
+				            }
 				            /* every player that connects to the server should send login so their info can be saved
 				             	and the other players connected to the lobby can be sent, right now I only keep track of port
 				             	numbers we can link that to different users later*/
@@ -87,16 +93,27 @@ public class ServerLobby{
 				            if(line.equals("login\n")){ // you should be sending login nonstop so you can get an updated list of whos in the room, you just get a 
 				            	//bunch of ports ie 565, 454 ,334 all connected. You need to open like 4 different ecplise windows to test this
 				            	//sends back an empty string if there is no one else but you in the lobby
-				            	String port = cchannel.getRemoteAddress().toString();
-				            	String[] message = port.split(",");
-				            	message = message[0].split(":");
-				            	String cleanMessage = message[1].trim();
-				            	ports.add(cleanMessage);
+				            	String cleanMessage = getPort(cchannel);
 				            	
+				            	//printing the list
+				            	String list ="";
+				            	for(int i =0; i< ports.size(); i++){
+				            		list += ports.get(i)+",";
+				            	}
+				            	System.out.println(list);
+				            	list = list + "\n";
+				            	byte[] ba = list.getBytes("ISO-8859-1");
+				            	ByteBuffer send = ByteBuffer.wrap(ba);
+				            	int bytesSent = cchannel.write(send);
+				            	ports.add(cleanMessage);
+				            	continue;
+				            }
+				            if(line.equals("refresh\n")){
+				            	String cleanMessage = getPort(cchannel);
 				            	//if the port is not itself send it back
 				            	String list ="";
 				            	for(int i =0; i< ports.size(); i++){
-				            		if(ports.get(i) != cleanMessage)
+				            		if(!ports.get(i).equals(cleanMessage))
 				            			list += ports.get(i)+",";
 				            	}
 				            	System.out.println(list);
@@ -104,7 +121,7 @@ public class ServerLobby{
 				            	byte[] ba = list.getBytes("ISO-8859-1");
 				            	ByteBuffer send = ByteBuffer.wrap(ba);
 				            	int bytesSent = cchannel.write(send);
-				            	
+				            	continue;
 				            }
 				            // this was just for testing shit you should never send the wrong string "DONT FORGET NEW LINES "/n"
 				            else{ 
@@ -134,6 +151,13 @@ public class ServerLobby{
 			else if(key.isValid())
 				((SocketChannel)key.channel()).socket().close();
 		}
+	}
+	public static String getPort(SocketChannel cchannel) throws IOException{
+		String port = cchannel.getRemoteAddress().toString();
+    	String[] message = port.split(",");
+    	message = message[0].split(":");
+    	String cleanMessage = message[1];
+    	return cleanMessage;
 	}
 
 	

@@ -13,27 +13,43 @@ import java.util.stream.Stream;
 
 public class Client { 
 
-    public void create(String IP, String port) throws Exception 
+    //public void create(String IP, String port) throws Exception 
+	public static void main(String[] args) throws Exception
     { 
         // Initialize a client socket connection to the server
-        Socket clientSocket = new Socket(IP, Integer.parseInt(port));
+        Socket clientSocket = new Socket(args[0], Integer.parseInt(args[1]));
 
         // Initialize input and an output stream for the connection(s)
         DataOutputStream outBuffer = 
           new DataOutputStream(clientSocket.getOutputStream()); 
         DataInputStream inBuffer = 
           new DataInputStream(clientSocket.getInputStream()); 
-
-        // Get user input and send to the server
- 
+        
+     // Initialize user input stream **FOR TESTING
+        String line = ""; 
+        BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
+        System.out.print("Please enter a message to be sent to the server ('terminate' to terminate): ");
+        line = inFromUser.readLine(); 
         //when you create a client it should stay open until w.e, its a class so you can open it with you GUI or w.e
-        while (//terminate not pressed or true) // change to while the terminate button or "x" or  w.e you use has not been pressed
+        while (true) // change to while the terminate button or "x" or  w.e you use has not been pressed
         {
             // you can keep on doing w.e you want until terminate is true
-        }
-
-        // Close the socket
-        clientSocket.close();           
+        	 // Send to the server
+        	if(line.equals("terminate\n")){
+        		outBuffer.writeBytes(line + '\n');
+        		clientSocket.close();   
+        	}
+        		
+            outBuffer.writeBytes(line + '\n'); 
+            
+            //from the server
+        	line = inBuffer.readLine();
+        	System.out.println("Server: " +line);
+        	
+        	System.out.print("Please enter a message to be sent to the server ('terminate' to terminate): ");
+        	
+        	line = inFromUser.readLine();
+        }           
     }
     // send terminate receive who knows you terminated loool
     public void terminate(DataOutputStream outBuffer, DataInputStream inBuffer, Socket clientSocket) throws IOException{
@@ -49,7 +65,7 @@ public class Client {
     	
     }
     // send login receive everyone else in the room in like a string list 45,34,23 ... only going to be in ports for now
-    public String login(DataOutputStream outBuffer, DataInputStream inBuffer) throws IOException{
+    public static String login(DataOutputStream outBuffer, DataInputStream inBuffer) throws IOException{
     	String line = "login";
     	// Send to the server
         outBuffer.writeBytes(line + '\n'); 
