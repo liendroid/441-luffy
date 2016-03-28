@@ -11,70 +11,70 @@ import java.io.*;
 import java.net.*; 
 import java.util.stream.Stream;
 
-public class Client { 
+public class Client{ 
 
-    //public void create(String IP, String port) throws Exception 
-	public static void main(String[] args) throws Exception
-    { 
+	private Socket clientSocket;
+	private DataOutputStream outBuffer;
+	private DataInputStream inBuffer;
+	
+	public Client(String IP, int port) throws Exception
+	{
+		
         // Initialize a client socket connection to the server
-        Socket clientSocket = new Socket(args[0], Integer.parseInt(args[1]));
+        clientSocket = new Socket(IP, port);
 
         // Initialize input and an output stream for the connection(s)
-        DataOutputStream outBuffer = 
-          new DataOutputStream(clientSocket.getOutputStream()); 
-        DataInputStream inBuffer = 
-          new DataInputStream(clientSocket.getInputStream()); 
-        
-     // Initialize user input stream **FOR TESTING
-        String line = ""; 
-        BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print("Please enter a message to be sent to the server ('terminate' to terminate): ");
-        line = inFromUser.readLine(); 
-        //when you create a client it should stay open until w.e, its a class so you can open it with you GUI or w.e
-        while (true) // change to while the terminate button or "x" or  w.e you use has not been pressed
-        {
-            // you can keep on doing w.e you want until terminate is true
-        	 // Send to the server
-        	if(line.equals("terminate\n")){
-        		outBuffer.writeBytes(line + '\n');
-        		clientSocket.close();   
-        	}
-        		
-            outBuffer.writeBytes(line + '\n'); 
-            
-            //from the server
-        	line = inBuffer.readLine();
-        	System.out.println("Server: " +line);
-        	
-        	System.out.print("Please enter a message to be sent to the server ('terminate' to terminate): ");
-        	
-        	line = inFromUser.readLine();
-        }           
+        outBuffer = new DataOutputStream(clientSocket.getOutputStream()); 
+        inBuffer = new DataInputStream(clientSocket.getInputStream()); 
+
     }
     // send terminate receive who knows you terminated loool
-    public void terminate(DataOutputStream outBuffer, DataInputStream inBuffer, Socket clientSocket) throws IOException{
+    public void terminate() throws IOException{
     	String line = "terminate";
     	// Send to the server
         outBuffer.writeBytes(line + '\n'); 
         
-        //from the server
-    	line = inBuffer.readLine();
-    	System.out.println("Server: " +line);
     	// Close the socket
         clientSocket.close();
     	
     }
-    // send login receive everyone else in the room in like a string list 45,34,23 ... only going to be in ports for now
-    public static String login(DataOutputStream outBuffer, DataInputStream inBuffer) throws IOException{
+    
+    public void logout() throws IOException
+    {
+    	String line = "logout";
+    	outBuffer.writeBytes(line + '\n');
+    	//clientSocket.close();
+    }
+    
+    public void login() throws IOException
+    {
+    	//needs to check the db and verify user creds
     	String line = "login";
-    	// Send to the server
-        outBuffer.writeBytes(line + '\n'); 
-        
-        //from the server
+    	outBuffer.writeBytes(line + '\n');
+    }
+    
+    public void createGame(String playerName) throws IOException
+    {
+    	
+    	String line = "create";
+    	outBuffer.writeBytes(line + '\n');
+    }
+    
+    public void refresh() throws IOException
+    {
+    	//get player list
+    	String line = "refresh";
+    	outBuffer.writeBytes(line + '\n');
+    	
     	line = inBuffer.readLine();
     	System.out.println("Server: " +line);
-    	
-    	return line;
+    	//parseString(line);
     }
-} 
+    
+    private void parseString(String info)
+    {
+    	String playersList;
+    	for()
+    }
+}
 
