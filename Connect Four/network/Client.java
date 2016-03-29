@@ -71,7 +71,15 @@ public class Client{
     	String[] message = line.split(":");
     	message = message[1].split(",");
     	return message;
+    	
+    	
+    	
+    	//parseString(line);
     }
     
+    private void parseString(String info)
+    {
+    	String playersList="";
+    }
 }
 
