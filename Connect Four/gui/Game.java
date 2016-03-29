@@ -57,7 +57,7 @@ public class Game extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel gamePanel = new JPanel();
-		gamePanel.setBounds(21, 26, 789, 529);
+		gamePanel.setBounds(21, 82, 789, 473);
 		contentPane.add(gamePanel);
 		
 		JTextPane gameChatHistoryTxtPane = new JTextPane();
@@ -92,23 +92,76 @@ public class Game extends JFrame {
 		gamePlayerList.setBounds(820, 26, 150, 529);
 		contentPane.add(gamePlayerList);
 		
-		GameCanvas canvas = new GameCanvas();
-		canvas.setBounds(21, 78, 791, 477);
-		contentPane.add(canvas);
-	}
-	
-
-	public class GameCanvas extends Canvas
-	{
-		Image image;
+		JButton btnCol1 = new JButton("");
+		btnCol1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO: Tell the server Column 1 was selected
+			}
+		});
+		btnCol1.setBounds(33, 48, 39, 23);
+		contentPane.add(btnCol1);
 		
-		public public GameCanvas() {
-			image = Toolkit.getDefaultToolkit().getImage("/resources/ConnectFourBoard.png");
-		}
-		@Override
-		public void paint(Graphics g) {
-			// TODO Auto-generated method stub
-			super.paint(g);
-		}
+		JButton btnCol2 = new JButton("");
+		btnCol2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO: Tell the server Column 2 was selected
+			}
+		});
+		btnCol2.setBounds(125, 48, 39, 23);
+		contentPane.add(btnCol2);
+		
+		JButton btnCol3 = new JButton("");
+		btnCol3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO: Tell the server Column 3 was selected
+			}
+		});
+		btnCol3.setBounds(220, 48, 39, 23);
+		contentPane.add(btnCol3);
+		
+		JButton btnCol4 = new JButton("");
+		btnCol4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO: Tell the server Column 4 was selected
+			}
+		});
+		btnCol4.setBounds(315, 48, 39, 23);
+		contentPane.add(btnCol4);
+		
+		JButton btnCol5 = new JButton("");
+		btnCol5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO: Tell the server Column 5 was selected
+			}
+		});
+		btnCol5.setBounds(414, 48, 39, 23);
+		contentPane.add(btnCol5);
+		
+		JButton btnCol6 = new JButton("");
+		btnCol6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO: Tell the server Column 6 was selected
+			}
+		});
+		btnCol6.setBounds(519, 48, 39, 23);
+		contentPane.add(btnCol6);
+		
+		JButton btnCol7 = new JButton("");
+		btnCol7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO: Tell the server Column 7 was selected
+			}
+		});
+		btnCol7.setBounds(626, 48, 39, 23);
+		contentPane.add(btnCol7);
+		
+		JButton btnCol8 = new JButton("");
+		btnCol8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO: Tell the server Column 8 was selected
+			}
+		});
+		btnCol8.setBounds(744, 48, 39, 23);
+		contentPane.add(btnCol8);
 	}
 }
