@@ -8,7 +8,8 @@ package network;
 
 
 import java.io.*; 
-import java.net.*; 
+import java.net.*;
+import java.nio.ByteBuffer;
 import java.util.stream.Stream;
 
 public class Client{ 
@@ -30,10 +31,9 @@ public class Client{
     }
     // send terminate receive who knows you terminated loool
     public void terminate() throws IOException{
-    	String line = "terminate";
+    	String line = "terminate\n";
     	// Send to the server
-        outBuffer.writeBytes(line + '\n'); 
-        
+    	outBuffer.write(line.getBytes("ISO-8859-1")); 
     	// Close the socket
         clientSocket.close();
     	
@@ -41,30 +41,30 @@ public class Client{
     
     public void logout() throws IOException
     {
-    	String line = "logout";
-    	outBuffer.writeBytes(line + '\n');
+    	String line = "logout\n";
+    	outBuffer.write(line.getBytes("ISO-8859-1"));
     	//clientSocket.close();
     }
     
     public void login() throws IOException
     {
     	//needs to check the db and verify user creds
-    	String line = "login";
-    	outBuffer.writeBytes(line + '\n');
+    	String line = "login\n";
+    	outBuffer.write(line.getBytes("ISO-8859-1"));
     }
     
     public void createGame(String playerName) throws IOException
     {
     	
-    	String line = "create";
-    	outBuffer.writeBytes(line + '\n');
+    	String line = "create\n";
+    	outBuffer.write(line.getBytes("ISO-8859-1"));
     }
     
     public void refresh() throws IOException
     {
     	//get player list
-    	String line = "refresh";
-    	outBuffer.writeBytes(line + '\n');
+    	String line = "refresh\n";
+    	outBuffer.write(line.getBytes("ISO-8859-1"));
     	
     	line = inBuffer.readLine();
     	System.out.println("Server: " +line);
