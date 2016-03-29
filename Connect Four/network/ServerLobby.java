@@ -86,13 +86,12 @@ public class ServerLobby{
 				            	String message = getPort(cchannel);
 				            	ports.remove(message);
 				            	key.cancel();
-				            	continue;
 				            }
 				            /* every player that connects to the server should send login so their info can be saved
 				             	and the other players connected to the lobby can be sent, right now I only keep track of port
 				             	numbers we can link that to different users later*/
 				            
-				            if(line.equals("login\n")){ // you should be sending login nonstop so you can get an updated list of whos in the room, you just get a 
+				            else if(line.equals("login\n")){ // you should be sending login nonstop so you can get an updated list of whos in the room, you just get a 
 				            	//bunch of ports ie 565, 454 ,334 all connected. You need to open like 4 different ecplise windows to test this
 				            	//sends back an empty string if there is no one else but you in the lobby
 				            	String cleanMessage = getPort(cchannel);
@@ -113,9 +112,8 @@ public class ServerLobby{
 				            	ByteBuffer send = ByteBuffer.wrap(ba);
 				            	int bytesSent = cchannel.write(send);
 				            	ports.add(cleanMessage);
-				            	continue;
 				            }
-				            if(line.equals("refresh\n")){ //refreshes to see if anyone new has connected *also show active games, not complete yet*
+				            else if(line.equals("refresh\n")){ //refreshes to see if anyone new has connected *also show active games, not complete yet*
 				            	String cleanMessage = getPort(cchannel);
 				            	//if the port is not itself send it back
 				            	String list ="PLAYERS: ";
@@ -133,16 +131,14 @@ public class ServerLobby{
 				            	byte[] ba = list.getBytes("ISO-8859-1");
 				            	ByteBuffer send = ByteBuffer.wrap(ba);
 				            	int bytesSent = cchannel.write(send);
-				            	continue;
 				            }
-				            if(line.equals("create\n")){ // create a game room 
+				            else if(line.equals("create\n")){ // create a game room 
 				            	System.out.println("creating room\n");
 				            	String port = getPort(cchannel);
 				            	Room game = new Room(port);
 				            	rooms.add(game);
 				            	String message = "Room created\n";
 				            	cchannel.write(ByteBuffer.wrap(message.getBytes("ISO-8859-1")));
-				            	continue;
 				            	
 				            }
 				            // this was just for testing shit you should never send the wrong string "DONT FORGET NEW LINES "/n"
@@ -152,7 +148,6 @@ public class ServerLobby{
 					            if(bytesSent != bytesRecv ){
 					            	System.out.println("Write() error, or the connection closed");
 					            	key.cancel(); //deregister the socket
-					            	continue;
 					            }
 				            }
 						}

@@ -11,6 +11,8 @@ public class GameLogic {
 	private static PlayerTwo p2;
 
 	public static void main (String args[]){
+		//p1.playerName = " ";
+		//p2.playerName = " ";
 		boolean gameDone = false;
 		boolean validMoveP1 = false;
 		boolean validMoveP2 = false;

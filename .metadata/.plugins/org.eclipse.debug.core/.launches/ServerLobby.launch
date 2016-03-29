@@ -7,5 +7,6 @@
 <listEntry value="1"/>
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="network.ServerLobby"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="8090"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Connect Four"/>
 </launchConfiguration>

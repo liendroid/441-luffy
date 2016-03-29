@@ -73,8 +73,7 @@ public class Client{
     
     private void parseString(String info)
     {
-    	String playersList;
-    	for()
+    	String playersList="";
     }
 }
 
