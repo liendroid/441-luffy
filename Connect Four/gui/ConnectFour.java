@@ -103,7 +103,7 @@ public class ConnectFour extends JFrame {
 		
 		usernameTxtfield = new JTextField();
 		usernameTxtfield.setFont(new Font("Lato", Font.PLAIN, 20));
-		usernameTxtfield.setBounds(67, 233, 238, 35);
+		usernameTxtfield.setBounds(67, 229, 238, 35);
 		mainMenuPanel.add(usernameTxtfield);
 		usernameTxtfield.setColumns(10);
 		
