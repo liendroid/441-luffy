@@ -140,7 +140,9 @@ public class ConnectFour extends JFrame {
 		mainMenuPanel.add(lblSignUp);
 		
 		JLabel lblIpaddress = new JLabel("IPAddress");
-		lblIpaddress.setBounds(550, 208, 109, 22);
+		lblIpaddress.setForeground(new Color(51, 153, 204));
+		lblIpaddress.setFont(new Font("Roboto Condensed", Font.PLAIN, 30));
+		lblIpaddress.setBounds(550, 200, 124, 28);
 		mainMenuPanel.add(lblIpaddress);
 		
 		IPTxtField = new JTextField();
@@ -149,7 +151,9 @@ public class ConnectFour extends JFrame {
 		IPTxtField.setColumns(10);
 		
 		JLabel lblPortNumber = new JLabel("Port Number");
-		lblPortNumber.setBounds(550, 297, 74, 20);
+		lblPortNumber.setForeground(new Color(51, 153, 204));
+		lblPortNumber.setFont(new Font("Roboto Condensed", Font.PLAIN, 30));
+		lblPortNumber.setBounds(550, 289, 149, 28);
 		mainMenuPanel.add(lblPortNumber);
 		
 		portNumberTxtField = new JTextField();
@@ -211,6 +215,13 @@ public class ConnectFour extends JFrame {
 		chatTxtField.setColumns(10);
 		
 		JButton btnSend = new JButton(">");
+		btnSend.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO: Send chat message to the server
+				//Grab the message content from chatTxtField and send it to the server.
+				//You need to call an update to the chatHistoryTxtPane 
+			}
+		});
 		btnSend.setBounds(905, 644, 55, 38);
 		gameLobbyPanel.add(btnSend);
 		
@@ -231,8 +242,9 @@ public class ConnectFour extends JFrame {
 				{
 					players.clear();
 				}
-				//parse server players here and add to list
 				try {
+					//TODO: populate the game rooms list frame.
+					//same way you did it for players
 					String[] playerList = client.refresh();
 					for(int i = 0; i < playerList.length; i++)
 						players.addElement(playerList[i]);
@@ -243,11 +255,11 @@ public class ConnectFour extends JFrame {
 			}
 		});
 		btnRefresh.setBounds(865, 450, 95, 33);
-		btnRefresh.setFont(new Font("Roboto Condensed", Font.PLAIN, 12));
+		btnRefresh.setFont(new Font("Roboto Condensed", Font.PLAIN, 15));
 		gameLobbyPanel.add(btnRefresh);
 		
 		JButton btnSpectate = new JButton("Spectate");
-		btnSpectate.setFont(new Font("Dialog", Font.PLAIN, 18));
+		btnSpectate.setFont(new Font("Roboto Condensed", Font.PLAIN, 18));
 		btnSpectate.setBounds(648, 448, 103, 31);
 		gameLobbyPanel.add(btnSpectate);
 		
@@ -259,6 +271,7 @@ public class ConnectFour extends JFrame {
 		currentGamesScrollPane.setViewportView(gamesLobbyList);
 		
 		JButton btnLogOut = new JButton("Log Out");
+		btnLogOut.setFont(new Font("Roboto Condensed", Font.PLAIN, 15));
 		btnLogOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				logout();

@@ -16,6 +16,8 @@ import java.awt.List;
 import java.lang.reflect.Array;
 
 import javax.swing.JList;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Game extends JFrame {
 
@@ -71,12 +73,42 @@ public class Game extends JFrame {
 		gameChatTxtField.setColumns(10);
 		
 		JButton btnGameChatSend = new JButton(">");
+		btnGameChatSend.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO: Send the server chat info. You got the drill. 
+				//pull the information from gameChatTxtField and send it to the server. 
+			}
+		});
 		btnGameChatSend.setFont(new Font("Roboto Condensed", Font.PLAIN, 11));
 		btnGameChatSend.setBounds(920, 670, 50, 27);
 		contentPane.add(btnGameChatSend);
+		DefaultListModel<String> players = new DefaultListModel<String>();
+		players.addElement("");
+		players.addElement("");
 		
-		JList gamePlayerList = new JList();
+		//TODO: This is where you populate the list with players and spectators.
+		//You should call the info from the server. 
+		JList<String> gamePlayerList = new JList<String>(players);
 		gamePlayerList.setBounds(820, 26, 150, 529);
 		contentPane.add(gamePlayerList);
+		
+		GameCanvas canvas = new GameCanvas();
+		canvas.setBounds(21, 78, 791, 477);
+		contentPane.add(canvas);
+	}
+	
+
+	public class GameCanvas extends Canvas
+	{
+		Image image;
+		
+		public public GameCanvas() {
+			image = Toolkit.getDefaultToolkit().getImage("/resources/ConnectFourBoard.png");
+		}
+		@Override
+		public void paint(Graphics g) {
+			// TODO Auto-generated method stub
+			super.paint(g);
+		}
 	}
 }
