@@ -17,6 +17,8 @@ public class Client{
 	private Socket clientSocket;
 	private DataOutputStream outBuffer;
 	private DataInputStream inBuffer;
+	private String[] players;
+	private String[] rooms;
 	
 	public Client(String IP, int port) throws Exception
 	{
@@ -29,16 +31,6 @@ public class Client{
         inBuffer = new DataInputStream(clientSocket.getInputStream()); 
 
     }
-    // send terminate receive who knows you terminated loool
-    public void terminate() throws IOException{
-    	String line = "terminate\n";
-    	// Send to the server
-    	outBuffer.write(line.getBytes("ISO-8859-1")); 
-    	// Close the socket
-        clientSocket.close();
-    	
-    }
-    
     public void logout() throws IOException
     {
     	String line = "logout\n";
@@ -60,7 +52,7 @@ public class Client{
     	outBuffer.write(line.getBytes("ISO-8859-1"));
     }
     
-    public String[] refresh() throws IOException
+    public void refresh() throws IOException
     {
     	//get player list
     	String line = "refresh\n";
@@ -69,10 +61,20 @@ public class Client{
     	line = inBuffer.readLine();
     	System.out.println("Server: " +line);
     	String[] message = line.split(":");
-    	message = message[1].split(",");
-    	return message;
-
+    	String players = message[1];
+    	String rooms = message[3];
+    	
+    	this.players = players.split(",");
+    	this.rooms = rooms.split(",");
     }
+	public String[] getPlayers() {
+		return this.players;
+	}
+	public String[] getRooms() {
+		// TODO Auto-generated method stub
+		return this.rooms;
+	}
+	
 
 }
 

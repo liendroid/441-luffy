@@ -230,26 +230,38 @@ public class ConnectFour extends JFrame {
 		gameLobbyPanel.add(playerScrollPane);
 		
 		DefaultListModel<String> players = new DefaultListModel<String>();
-		players.addElement("");
-		players.addElement("");
 		JList<String> currentPlayers = new JList<String>(players);
 		playerScrollPane.setViewportView(currentPlayers);
+		
+		JScrollPane currentGamesScrollPane = new JScrollPane();
+		currentGamesScrollPane.setBounds(45, 69, 706, 374);
+		gameLobbyPanel.add(currentGamesScrollPane);
+		
+		DefaultListModel<String> games = new DefaultListModel<String>();
+		JList<String> gamesLobbyList = new JList<String>(games);
+		currentGamesScrollPane.setViewportView(gamesLobbyList);
 		
 		JButton btnRefresh = new JButton("Refresh");
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(!players.isEmpty())
-				{
 					players.clear();
-				}
+				if(!games.isEmpty())
+					games.clear();
 				try {
-					//TODO: populate the game rooms list frame.
+					//TODO: populate the game rooms list frame. * DONE*
 					//same way you did it for players
-					String[] playerList = client.refresh();
+					client.refresh();
+					String[] playerList = client.getPlayers();
+					String[] roomList = client.getRooms();
 					for(int i = 0; i < playerList.length; i++)
 						players.addElement(playerList[i]);
+					for(int i = 0; i < roomList.length; i++)
+						games.addElement(roomList[i]);
+					
+					
+					
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -262,13 +274,6 @@ public class ConnectFour extends JFrame {
 		btnSpectate.setFont(new Font("Roboto Condensed", Font.PLAIN, 18));
 		btnSpectate.setBounds(648, 448, 103, 31);
 		gameLobbyPanel.add(btnSpectate);
-		
-		JScrollPane currentGamesScrollPane = new JScrollPane();
-		currentGamesScrollPane.setBounds(45, 69, 706, 374);
-		gameLobbyPanel.add(currentGamesScrollPane);
-		
-		JList<String> gamesLobbyList = new JList<String>();
-		currentGamesScrollPane.setViewportView(gamesLobbyList);
 		
 		JButton btnLogOut = new JButton("Log Out");
 		btnLogOut.setFont(new Font("Roboto Condensed", Font.PLAIN, 15));
@@ -343,7 +348,6 @@ public class ConnectFour extends JFrame {
 			cLayout.show(contentPane, "mainMenuCard");
 		} 
 		catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

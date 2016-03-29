@@ -95,23 +95,12 @@ public class ServerLobby{
 				            	//bunch of ports ie 565, 454 ,334 all connected. You need to open like 4 different ecplise windows to test this
 				            	//sends back an empty string if there is no one else but you in the lobby
 				            	String cleanMessage = getPort(cchannel);
-				            	
-				            	//printing the list
-				            	String list ="PLAYERS:";
-				            	for(int i =0; i< ports.size(); i++){
-				            		list += ports.get(i)+",";
-				            	}
-				            	list = list + " :ROOMS: ";
-				            	for(int i = 0; i<rooms.size();i++){
-				            		Room gameroom = rooms.get(i);
-				            		list += " " + gameroom.player1 + " VS " + gameroom.player2 +" "+ gameroom.joinable + ",";
-				            	}
-				            	System.out.println(list);
-				            	list = list + "\n";
+				            	ports.add(cleanMessage);
+				            
+				            	String list = cleanMessage + " Logged in!";
 				            	byte[] ba = list.getBytes("ISO-8859-1");
 				            	ByteBuffer send = ByteBuffer.wrap(ba);
-				            	int bytesSent = cchannel.write(send);
-				            	ports.add(cleanMessage);
+				            	cchannel.write(send);
 				            }
 				            else if(line.equals("refresh\n")){ //refreshes to see if anyone new has connected *also show active games, not complete yet*
 				            	String cleanMessage = getPort(cchannel);
@@ -122,15 +111,21 @@ public class ServerLobby{
 				            			list += ports.get(i)+",";
 				            	}
 				            	list = list + " :ROOMS: ";
+				            	if(rooms.isEmpty())
+				            		list = list + ":";
 				            	for(int i = 0; i<rooms.size();i++){
 				            		Room gameroom = rooms.get(i);
-				            		list += " " + gameroom.player1 + " VS " + gameroom.player2 +" "+ gameroom.joinable + ",";
+				            		list += " " + gameroom.player1 + " VS " + gameroom.player2 +" ";
+				            		if(gameroom.joinable)
+				            			list += "   Joinable";
+				            		else
+				            			list += "   Spectate";
 				            	}
 				            	System.out.println(list);
 				            	list = list + "\n";
 				            	byte[] ba = list.getBytes("ISO-8859-1");
 				            	ByteBuffer send = ByteBuffer.wrap(ba);
-				            	int bytesSent = cchannel.write(send);
+				            	cchannel.write(send);
 				            }
 				            else if(line.equals("create\n")){ // create a game room 
 				            	System.out.println("creating room\n");
