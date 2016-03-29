@@ -103,7 +103,7 @@ public class ConnectFour extends JFrame {
 		
 		usernameTxtfield = new JTextField();
 		usernameTxtfield.setFont(new Font("Lato", Font.PLAIN, 20));
-		usernameTxtfield.setBounds(67, 229, 238, 35);
+		usernameTxtfield.setBounds(67, 233, 238, 35);
 		mainMenuPanel.add(usernameTxtfield);
 		usernameTxtfield.setColumns(10);
 		
@@ -227,15 +227,17 @@ public class ConnectFour extends JFrame {
 		JButton btnRefresh = new JButton("Refresh");
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(!players.isEmpty())
+				{
+					players.clear();
+				}
+				//parse server players here and add to list
 				try {
-					if(!players.isEmpty())
-					{
-						players.clear();
-					}
-					//parse server players here and add to list
-					players.addElement("nana");
-					client.refresh();
+					String[] playerList = client.refresh();
+					for(int i = 0; i < playerList.length; i++)
+						players.addElement(playerList[i]);
 				} catch (IOException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

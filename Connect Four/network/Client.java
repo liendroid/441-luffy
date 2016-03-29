@@ -43,7 +43,7 @@ public class Client{
     {
     	String line = "logout\n";
     	outBuffer.write(line.getBytes("ISO-8859-1"));
-    	//clientSocket.close();
+    	clientSocket.close();
     }
     
     public void login() throws IOException
@@ -60,7 +60,7 @@ public class Client{
     	outBuffer.write(line.getBytes("ISO-8859-1"));
     }
     
-    public void refresh() throws IOException
+    public String[] refresh() throws IOException
     {
     	//get player list
     	String line = "refresh\n";
@@ -68,6 +68,12 @@ public class Client{
     	
     	line = inBuffer.readLine();
     	System.out.println("Server: " +line);
+    	String[] message = line.split(":");
+    	message = message[1].split(",");
+    	return message;
+    	
+    	
+    	
     	//parseString(line);
     }
     

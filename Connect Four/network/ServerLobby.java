@@ -81,7 +81,7 @@ public class ServerLobby{
 				            line = cBuffer.toString();
 				            System.out.println("Client: " + line + "\n");
 				            
-				            if(line.equals("terminate\n")) // if the player sends terminate close the socket
+				            if(line.equals("logout\n")) // if the player sends terminate close the socket
 				            {
 				            	String message = getPort(cchannel);
 				            	ports.remove(message);
@@ -97,11 +97,11 @@ public class ServerLobby{
 				            	String cleanMessage = getPort(cchannel);
 				            	
 				            	//printing the list
-				            	String list ="PLAYERS: ";
+				            	String list ="PLAYERS:";
 				            	for(int i =0; i< ports.size(); i++){
 				            		list += ports.get(i)+",";
 				            	}
-				            	list = list + " ROOMS:";
+				            	list = list + " :ROOMS: ";
 				            	for(int i = 0; i<rooms.size();i++){
 				            		Room gameroom = rooms.get(i);
 				            		list += " " + gameroom.player1 + " VS " + gameroom.player2 +" "+ gameroom.joinable + ",";
@@ -116,12 +116,12 @@ public class ServerLobby{
 				            else if(line.equals("refresh\n")){ //refreshes to see if anyone new has connected *also show active games, not complete yet*
 				            	String cleanMessage = getPort(cchannel);
 				            	//if the port is not itself send it back
-				            	String list ="PLAYERS: ";
+				            	String list ="PLAYERS:";
 				            	for(int i =0; i< ports.size(); i++){
 				            		if(!ports.get(i).equals(cleanMessage))
 				            			list += ports.get(i)+",";
 				            	}
-				            	list = list + " ROOMS:";
+				            	list = list + " :ROOMS: ";
 				            	for(int i = 0; i<rooms.size();i++){
 				            		Room gameroom = rooms.get(i);
 				            		list += " " + gameroom.player1 + " VS " + gameroom.player2 +" "+ gameroom.joinable + ",";
