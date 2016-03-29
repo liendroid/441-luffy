@@ -95,12 +95,30 @@ public class ServerLobby{
 				            	//bunch of ports ie 565, 454 ,334 all connected. You need to open like 4 different ecplise windows to test this
 				            	//sends back an empty string if there is no one else but you in the lobby
 				            	String cleanMessage = getPort(cchannel);
-				            	ports.add(cleanMessage);
-				            
-				            	String list = cleanMessage + " Logged in!";
+				            	
+				            	//if the port is not itself send it back
+				            	String list ="PLAYERS:";
+				            	for(int i =0; i< ports.size(); i++){
+				            		if(!ports.get(i).equals(cleanMessage))
+				            			list += ports.get(i)+",";
+				            	}
+				            	list = list + " :ROOMS: ";
+				            	if(rooms.isEmpty())
+				            		list = list + ":";
+				            	for(int i = 0; i<rooms.size();i++){
+				            		Room gameroom = rooms.get(i);
+				            		list += " " + gameroom.player1 + " VS " + gameroom.player2 +" ";
+				            		if(gameroom.joinable)
+				            			list += "   Joinable";
+				            		else
+				            			list += "   Spectate";
+				            	}
+				            	System.out.println(list);
+				            	list = list + "\n";
 				            	byte[] ba = list.getBytes("ISO-8859-1");
 				            	ByteBuffer send = ByteBuffer.wrap(ba);
 				            	cchannel.write(send);
+				            	ports.add(cleanMessage);
 				            }
 				            else if(line.equals("refresh\n")){ //refreshes to see if anyone new has connected *also show active games, not complete yet*
 				            	String cleanMessage = getPort(cchannel);
