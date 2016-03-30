@@ -91,7 +91,6 @@ public class Client{
 		String message = "Join " + choice + "\n";
 		outBuffer.write(message.getBytes());
 	}
-	
 
 }
 

@@ -1,25 +1,14 @@
 package gui;
 
-import java.awt.BorderLayout;
-
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import java.awt.CardLayout;
 import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.List;
-import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
-import java.awt.event.MouseEvent;
+
 import java.io.IOException;
 import java.net.Socket;
 import java.awt.*;
@@ -55,6 +44,7 @@ public class ConnectFour extends JFrame {
 	private Timer timer;
 	
 	private String playerName;
+	
 
 	/**
 	 * Launch the application.
@@ -330,6 +320,58 @@ public class ConnectFour extends JFrame {
 		});
 		btnLogOut.setBounds(871, 25, 89, 33);
 		gameLobbyPanel.add(btnLogOut);
+		//what happens when you hit close window
+		addWindowListener(new WindowListener(){
+			@Override
+	        public void windowClosing(WindowEvent e) {
+	            try{
+	            	timer.stop();
+					logout();
+	            }
+	            catch(Exception ex){
+	            	
+	            }
+		        System.exit(-1);
+	            	
+	        }
+
+			@Override
+			public void windowActivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowClosed(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowIconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowOpened(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 	}
 	
 	public void switchCards()
