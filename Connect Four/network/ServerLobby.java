@@ -154,6 +154,14 @@ public class ServerLobby{
 				            	System.out.println("adding message");
 				            	System.out.println(serverMessages.size());
 				            }
+				            else if(line.contains("Join")){
+				            	String[] roomInfo = line.split(" ");
+				            	String roomNumber = roomInfo[1].trim();
+				            	System.out.println(roomNumber);
+				            	int num = Integer.parseInt(roomNumber);
+				            	Room game = rooms.get(num-1);
+				            	game.player2 = getPort(cchannel);
+				            }
 				            // this was just for testing shit you should never send the wrong string "DONT FORGET NEW LINES "/n"
 				            else{ 
 				            	System.out.println("command does not exist");

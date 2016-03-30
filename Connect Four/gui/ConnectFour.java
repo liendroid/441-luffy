@@ -194,6 +194,25 @@ public class ConnectFour extends JFrame {
 		JButton btnJoinGame = new JButton("Join");
 		btnJoinGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				while(true){
+					String path = JOptionPane.showInputDialog("which room?");
+					int choice = Integer.parseInt(path);
+					//System.out.println(choice);
+					String[] rooms = client.getRooms();
+					if(choice <= rooms.length){// room exists
+						String room = rooms[choice-1];
+						//System.out.println(room);
+						if(room.contains("Joinable")){ // room is joinable
+							try {
+								client.joinGame(choice);
+								break;
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						}
+					}
+				}
 				Game joinGame = new Game();
 				joinGame.setVisible(true);
 			}

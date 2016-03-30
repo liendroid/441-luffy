@@ -61,9 +61,9 @@ public class Client{
     	line = inBuffer.readLine();
     	System.out.println("Server: " +line);
     	String[] message = line.split("\\[");
-    	String players = message[1];
-    	String rooms = message[3];
-    	String serverMessages = message[5];
+    	String players = message[1].trim();
+    	String rooms = message[3].trim();
+    	String serverMessages = message[5].trim();
     	
     	this.players = players.split(",");
     	this.rooms = rooms.split(",");	
@@ -86,6 +86,10 @@ public class Client{
 	}
 	public String[] getServerMessages() throws IOException {
 		return this.serverMessages;
+	}
+	public void joinGame(int choice) throws IOException {
+		String message = "Join " + choice + "\n";
+		outBuffer.write(message.getBytes());
 	}
 	
 
