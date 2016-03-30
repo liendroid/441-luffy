@@ -22,11 +22,15 @@ import javax.swing.JPasswordField;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.Socket;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
+import javax.swing.Timer;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ListDataListener;
 
@@ -48,6 +52,7 @@ public class ConnectFour extends JFrame {
 	private JList<String> currentPlayers;
 	private JList<String> gamesLobbyList;
 	private DefaultListModel<String> players;
+	private Timer timer;
 	
 	private String playerName;
 
@@ -121,6 +126,7 @@ public class ConnectFour extends JFrame {
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				switchCards();
+				timer.start();
 			}
 		});
 		btnLogin.setFont(new Font("Roboto Condensed", Font.PLAIN, 17));
@@ -178,6 +184,7 @@ public class ConnectFour extends JFrame {
 		btnCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
+					timer.stop();
 					Game newGame = new Game();
 					newGame.setVisible(true);
 					client.createGame(playerName);
@@ -213,6 +220,7 @@ public class ConnectFour extends JFrame {
 						}
 					}
 				}
+				timer.stop();
 				Game joinGame = new Game();
 				joinGame.setVisible(true);
 			}
@@ -272,8 +280,9 @@ public class ConnectFour extends JFrame {
 		JList<String> gamesLobbyList = new JList<String>(games);
 		currentGamesScrollPane.setViewportView(gamesLobbyList);
 		
-		JButton btnRefresh = new JButton("Refresh");
-		btnRefresh.addActionListener(new ActionListener() {
+		//JButton btnRefresh = new JButton("Refresh");
+		//btnRefresh.addActionListener(new ActionListener() {
+		timer = new Timer(2500, new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				if(!players.isEmpty())
 					players.clear();
@@ -302,9 +311,9 @@ public class ConnectFour extends JFrame {
 				}
 			}
 		});
-		btnRefresh.setBounds(865, 450, 95, 33);
-		btnRefresh.setFont(new Font("Roboto Condensed", Font.PLAIN, 15));
-		gameLobbyPanel.add(btnRefresh);
+		//btnRefresh.setBounds(865, 450, 95, 33);
+		//btnRefresh.setFont(new Font("Roboto Condensed", Font.PLAIN, 15));
+		//gameLobbyPanel.add(btnRefresh);
 		
 		JButton btnSpectate = new JButton("Spectate");
 		btnSpectate.setFont(new Font("Roboto Condensed", Font.PLAIN, 18));
@@ -315,6 +324,7 @@ public class ConnectFour extends JFrame {
 		btnLogOut.setFont(new Font("Roboto Condensed", Font.PLAIN, 15));
 		btnLogOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				timer.stop();
 				logout();
 			}
 		});
