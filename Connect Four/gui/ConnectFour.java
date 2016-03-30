@@ -81,7 +81,6 @@ public class ConnectFour extends JFrame {
 		
 		initMainMenu();
 		initGameLobby();
-		
 	}
 	public void initMainMenu()
 	{
@@ -203,11 +202,15 @@ public class ConnectFour extends JFrame {
 		btnJoinGame.setBounds(534, 448, 103, 31);
 		gameLobbyPanel.add(btnJoinGame);
 		
-		JTextPane chatHistoryTxtPane = new JTextPane();
+		JScrollPane chatHistoryTxtPane = new JScrollPane();
 		chatHistoryTxtPane.setFont(new Font("Roboto Condensed", Font.PLAIN, 12));
-		chatHistoryTxtPane.setEditable(false);
+		//chatHistoryTxtPane.setEditable(false);
 		chatHistoryTxtPane.setBounds(44, 489, 916, 140);
 		gameLobbyPanel.add(chatHistoryTxtPane);
+		
+		DefaultListModel<String> chatHistory = new DefaultListModel<String>();
+		JList<String> chatHistoryList = new JList<String>(chatHistory);
+		chatHistoryTxtPane.setViewportView(chatHistoryList);
 		
 		chatTxtField = new JTextField();
 		chatTxtField.setBounds(44, 641, 851, 41);
@@ -219,7 +222,16 @@ public class ConnectFour extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				//TODO: Send chat message to the server
 				//Grab the message content from chatTxtField and send it to the server.
-				//You need to call an update to the chatHistoryTxtPane 
+				String message = chatTxtField.getText();
+				chatTxtField.setText(null);
+				try {
+					client.serverMessage(message);
+					//You need to call an update to the chatHistoryTxtPane 
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				
+				
 			}
 		});
 		btnSend.setBounds(905, 644, 55, 38);
@@ -248,16 +260,21 @@ public class ConnectFour extends JFrame {
 					players.clear();
 				if(!games.isEmpty())
 					games.clear();
+				if(!chatHistory.isEmpty())
+					chatHistory.clear();
 				try {
 					//TODO: populate the game rooms list frame. * DONE*
 					//same way you did it for players
 					client.refresh();
 					String[] playerList = client.getPlayers();
 					String[] roomList = client.getRooms();
+					String[] serverMessagesList = client.getServerMessages();
 					for(int i = 0; i < playerList.length; i++)
 						players.addElement(playerList[i]);
 					for(int i = 0; i < roomList.length; i++)
 						games.addElement(roomList[i]);
+					for(int i = 0; i < serverMessagesList.length; i++)
+						chatHistory.addElement(serverMessagesList[i]);
 					
 					
 					

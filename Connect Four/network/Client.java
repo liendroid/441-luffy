@@ -13,12 +13,12 @@ import java.nio.ByteBuffer;
 import java.util.stream.Stream;
 
 public class Client{ 
-
 	private Socket clientSocket;
 	private DataOutputStream outBuffer;
 	private DataInputStream inBuffer;
 	private String[] players;
 	private String[] rooms;
+	private String[] serverMessages;
 	
 	public Client(String IP, int port) throws Exception
 	{
@@ -60,19 +60,32 @@ public class Client{
     	
     	line = inBuffer.readLine();
     	System.out.println("Server: " +line);
-    	String[] message = line.split(":");
+    	String[] message = line.split("\\[");
     	String players = message[1];
     	String rooms = message[3];
+    	String serverMessages = message[5];
     	
     	this.players = players.split(",");
-    	this.rooms = rooms.split(",");
+    	this.rooms = rooms.split(",");	
+    	this.serverMessages = serverMessages.split(",");
     }
 	public String[] getPlayers() {
 		return this.players;
 	}
 	public String[] getRooms() {
-		// TODO Auto-generated method stub
 		return this.rooms;
+	}
+	public void serverMessage(String send) throws UnsupportedEncodingException, IOException {
+		String message2 = "port\n";
+		outBuffer.write(message2.getBytes());
+		String receive = inBuffer.readLine();
+		
+		String message = "serverMessage[ " + receive +  ":" + send + "[" + "\n";
+		outBuffer.write(message.getBytes());
+		System.out.println(message);
+	}
+	public String[] getServerMessages() throws IOException {
+		return this.serverMessages;
 	}
 	
 

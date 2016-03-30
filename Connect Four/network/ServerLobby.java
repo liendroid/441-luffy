@@ -32,6 +32,7 @@ public class ServerLobby{
 		channel.register(selector, SelectionKey.OP_ACCEPT);
 		ArrayList<String> ports = new ArrayList<String>();
 		ArrayList<Room> rooms = new ArrayList<Room>();
+		ArrayList<String> serverMessages = new ArrayList<String>();
 		
 		
 		try {
@@ -63,8 +64,8 @@ public class ServerLobby{
 							System.out.println("Accept connection from " + socket.toString());
 							
 							//OPen input and output streams
-							ByteBuffer inBuffer = ByteBuffer.allocateDirect(32);
-							CharBuffer cBuffer = CharBuffer.allocate(32);
+							ByteBuffer inBuffer = ByteBuffer.allocateDirect(20000);
+							CharBuffer cBuffer = CharBuffer.allocate(20000);
 							String line = "";
 							
 							//read from socket
@@ -97,40 +98,18 @@ public class ServerLobby{
 				            	String cleanMessage = getPort(cchannel);
 				            	
 				            	//if the port is not itself send it back
-				            	String list ="PLAYERS:";
-				            	for(int i =0; i< ports.size(); i++){
-				            		if(!ports.get(i).equals(cleanMessage))
-				            			list += ports.get(i)+",";
-				            	}
-				            	list = list + " :ROOMS: ";
-				            	if(rooms.isEmpty())
-				            		list = list + ":";
-				            	for(int i = 0; i<rooms.size();i++){
-				            		Room gameroom = rooms.get(i);
-				            		list += " " + gameroom.player1 + " VS " + gameroom.player2 +" ";
-				            		if(gameroom.joinable)
-				            			list += "   Joinable";
-				            		else
-				            			list += "   Spectate";
-				            	}
-				            	System.out.println(list);
-				            	list = list + "\n";
-				            	byte[] ba = list.getBytes("ISO-8859-1");
-				            	ByteBuffer send = ByteBuffer.wrap(ba);
-				            	cchannel.write(send);
+				            	System.out.println("login accepted");
 				            	ports.add(cleanMessage);
 				            }
 				            else if(line.equals("refresh\n")){ //refreshes to see if anyone new has connected *also show active games, not complete yet*
 				            	String cleanMessage = getPort(cchannel);
 				            	//if the port is not itself send it back
-				            	String list ="PLAYERS:";
+				            	String list ="PLAYERS[";
 				            	for(int i =0; i< ports.size(); i++){
 				            		if(!ports.get(i).equals(cleanMessage))
 				            			list += ports.get(i)+",";
 				            	}
-				            	list = list + " :ROOMS: ";
-				            	if(rooms.isEmpty())
-				            		list = list + ":";
+				            	list = list + " [ROOMS[ ";
 				            	for(int i = 0; i<rooms.size();i++){
 				            		Room gameroom = rooms.get(i);
 				            		list += " " + gameroom.player1 + " VS " + gameroom.player2 +" ";
@@ -138,6 +117,14 @@ public class ServerLobby{
 				            			list += "   Joinable";
 				            		else
 				            			list += "   Spectate";
+				            		list = list + ",";
+				            	}
+				            	
+				            	list = list + "[serverChatLog[ ";
+				            	if(serverMessages.isEmpty())
+				            		list = list + "[";
+				            	for(int i = 0; i<serverMessages.size(); i++){
+				            		list += " " + serverMessages.get(i) + ",";
 				            	}
 				            	System.out.println(list);
 				            	list = list + "\n";
@@ -150,18 +137,32 @@ public class ServerLobby{
 				            	String port = getPort(cchannel);
 				            	Room game = new Room(port);
 				            	rooms.add(game);
-				            	String message = "Room created\n";
-				            	cchannel.write(ByteBuffer.wrap(message.getBytes("ISO-8859-1")));
+				            	//String message = "Room created\n";
+				            	//cchannel.write(ByteBuffer.wrap(message.getBytes("ISO-8859-1")));
 				            	
+				            }
+				            else if(line.equals("port\n")){
+				            	String port = getPort(cchannel);
+				            	System.out.println(port);
+				            	port = port + "\n";
+				            	cchannel.write(ByteBuffer.wrap(port.getBytes()));
+				            }
+				            else if(line.contains("serverMessage[ ")){
+				            	String[] message = line.split("\\[");
+				            	System.out.println(message[1].trim());
+				            	serverMessages.add(message[1].trim());
+				            	System.out.println("adding message");
+				            	System.out.println(serverMessages.size());
 				            }
 				            // this was just for testing shit you should never send the wrong string "DONT FORGET NEW LINES "/n"
 				            else{ 
-				            	inBuffer.flip();
+				            	System.out.println("command does not exist");
+				            	/*inBuffer.flip();
 					            int bytesSent = cchannel.write(inBuffer);
 					            if(bytesSent != bytesRecv ){
 					            	System.out.println("Write() error, or the connection closed");
 					            	key.cancel(); //deregister the socket
-					            }
+					            }*/
 				            }
 						}
 						
