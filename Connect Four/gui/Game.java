@@ -40,7 +40,8 @@ public class Game extends JFrame {
 
 	/**
 	 * Create the frame.
-	 * @param client 
+	 * 
+	 * @param client
 	 */
 	public Game(Client client) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -280,13 +281,13 @@ public class Game extends JFrame {
 		gameChatHistoryTxtPane.setFont(new Font("Roboto Condensed", Font.PLAIN, 14));
 		gameChatHistoryTxtPane.setBounds(21, 574, 949, 85);
 		contentPane.add(gameChatHistoryTxtPane);
-		
+
 		DefaultListModel<String> chatHistory = new DefaultListModel<String>();
 		chatHistory.addElement("Dan the great: yo");
 		chatHistory.addElement("Really hot bitch: I will serve you forever");
 		chatHistory.addElement("Dan the great: coo");
 		// TODO: chat history list
-		
+
 		JList<String> chatHistoryList = new JList<String>(chatHistory);
 		gameChatHistoryTxtPane.setViewportView(chatHistoryList);
 
@@ -307,12 +308,12 @@ public class Game extends JFrame {
 		btnGameChatSend.setFont(new Font("Roboto Condensed", Font.PLAIN, 11));
 		btnGameChatSend.setBounds(920, 670, 50, 27);
 		contentPane.add(btnGameChatSend);
-		
+
 		JScrollPane playerTxtPane = new JScrollPane();
 		playerTxtPane.setFont(new Font("Roboto Condensed", Font.PLAIN, 14));
 		playerTxtPane.setBounds(820, 26, 150, 529);
 		contentPane.add(playerTxtPane);
-		
+
 		DefaultListModel<String> players = new DefaultListModel<String>();
 		players.addElement("test");
 		players.addElement("test 2");
@@ -320,7 +321,7 @@ public class Game extends JFrame {
 		// TODO: player list
 		JList<String> gamePlayerList = new JList<String>(players);
 		playerTxtPane.setViewportView(gamePlayerList);
-		
+
 		JButton btnCol0 = new JButton("");
 		btnCol0.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -410,21 +411,21 @@ public class Game extends JFrame {
 		btnGameBoard.setIcon(new ImageIcon(Game.class.getResource("/resources/finalboard.png")));
 		btnGameBoard.setBounds(21, 82, 789, 472);
 		contentPane.add(btnGameBoard);
-		
-		timer = new Timer(2500, new ActionListener(){
+
+		timer = new Timer(2500, new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-					// if all the panes we are refreshing are not empty clear them
-				
-					//TODO: populate the players and spectators
-					//TODO: update the chatroom
+				// if all the panes we are refreshing are not empty clear them
+
+				// TODO: populate the players and spectators
+				// TODO: update the chatroom
 			}
 		});
-		
+
 		// what happens when you hit close window
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
-				// TODO: remove myself from the game room 
+				// TODO: remove myself from the game room
 				try {
 					client.leaveGame();
 				} catch (IOException e1) {

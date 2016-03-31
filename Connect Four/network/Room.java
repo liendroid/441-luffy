@@ -6,8 +6,8 @@ import gameLogic.GameBoard;
  * 
  */
 public class Room {
-	String player1 = "";
-	String player2 = "";
+	String player1 = " ";
+	String player2 = " ";
 	int turn = 1; //(can be 1 or 2)
 	boolean joinable = true;
 	String[] spectators;
@@ -16,5 +16,10 @@ public class Room {
 	
 	Room(String player){
 		player1 = player;
+	}
+	public boolean isEmpty(){
+		if(this.player1.equals(" ") && this.player2.equals(" "))
+			return true;
+		return false;
 	}
 }

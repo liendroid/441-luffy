@@ -19,12 +19,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 
-public class ServerLobby{
-	
-	public static void main(String[] args) throws IOException{
+public class ServerLobby {
+
+	public static void main(String[] args) throws IOException {
 		// Initialize the selector and register the server socket
 		Selector selector = Selector.open();
-		//create a server channel and make it non-blocking
+		// create a server channel and make it non-blocking
 		ServerSocketChannel channel = ServerSocketChannel.open();
 		channel.configureBlocking(false);
 		InetSocketAddress isa = new InetSocketAddress(Integer.parseInt(args[0]));
@@ -33,195 +33,202 @@ public class ServerLobby{
 		ArrayList<String> ports = new ArrayList<String>();
 		ArrayList<Room> rooms = new ArrayList<Room>();
 		ArrayList<String> serverMessages = new ArrayList<String>();
-		
-		
+
 		try {
-			while(true){
+			while (true) {
 				if (selector.select(500) < 0) // moniter registered sockets
 					System.exit(1);
 				// get set of ready sockets
 				Set readyKeys = selector.selectedKeys();
 				Iterator readyItor = readyKeys.iterator();
-			
-				//walk through the ready set
-				while(readyItor.hasNext()){
-					SelectionKey key = (SelectionKey)readyItor.next();
+
+				// walk through the ready set
+				while (readyItor.hasNext()) {
+					SelectionKey key = (SelectionKey) readyItor.next();
 					readyItor.remove();
-					
-					//Accept new connections, if any
-					if(key.isAcceptable()){
-						SocketChannel cchannel = ((ServerSocketChannel)key.channel()).accept();
+
+					// Accept new connections, if any
+					if (key.isAcceptable()) {
+						SocketChannel cchannel = ((ServerSocketChannel) key.channel()).accept();
 						cchannel.configureBlocking(false);
-						
-						//Register the new connection for read operation
+
+						// Register the new connection for read operation
 						cchannel.register(selector, SelectionKey.OP_READ);
-					}
-					else {
-					// ..receive and send
-						SocketChannel cchannel = (SocketChannel)key.channel();
-						if(key.isReadable()){
+					} else {
+						// ..receive and send
+						SocketChannel cchannel = (SocketChannel) key.channel();
+						if (key.isReadable()) {
 							Socket socket = cchannel.socket();
 							System.out.println("Accept connection from " + socket.toString());
-							
-							//OPen input and output streams
+
+							// OPen input and output streams
 							ByteBuffer inBuffer = ByteBuffer.allocateDirect(20000);
 							CharBuffer cBuffer = CharBuffer.allocate(20000);
 							String line = "";
-							
-							//read from socket
+
+							// read from socket
 							int bytesRecv = cchannel.read(inBuffer);
-							if(bytesRecv <= 0){
+							if (bytesRecv <= 0) {
 								System.out.println("Read() error, or the connection closed");
 								key.cancel(); // deregister the socket
 								continue;
 							}
-							
-							// receive from client
-			            	inBuffer.flip();
-				            cBuffer = Charset.forName("ISO-8859-1").decode(inBuffer);
-				            line = cBuffer.toString();
-				            System.out.println("Client: " + line + "\n");
-				            
-				            if(line.equals("logout\n")) // if the player sends terminate close the socket
-				            {
-				            	String message = getPort(cchannel);
-				            	ports.remove(message);
-				            	key.cancel();
-				            }
-				            /* every player that connects to the server should send login so their info can be saved
-				             	and the other players connected to the lobby can be sent, right now I only keep track of port
-				             	numbers we can link that to different users later*/
-				            
-				            else if(line.equals("login\n")){ // you should be sending login nonstop so you can get an updated list of whos in the room, you just get a 
-				            	//bunch of ports ie 565, 454 ,334 all connected. You need to open like 4 different ecplise windows to test this
-				            	//sends back an empty string if there is no one else but you in the lobby
-				            	String cleanMessage = getPort(cchannel);
-				            	
-				            	//if the port is not itself send it back
-				            	System.out.println("login accepted");
-				            	ports.add(cleanMessage);
-				            }
-				            else if(line.equals("refresh\n")){ //refreshes to see if anyone new has connected *also show active games, not complete yet*
-				            	String cleanMessage = getPort(cchannel);
-				            	//if the port is not itself send it back
-				            	String list ="PLAYERS[";
-				            	for(int i =0; i< ports.size(); i++){
-				            		if(!ports.get(i).equals(cleanMessage))
-				            			list += ports.get(i)+",";
-				            	}
-				            	list = list + " [ROOMS[ ";
-				            	for(int i = 0; i<rooms.size();i++){
-				            		Room gameroom = rooms.get(i);
-				            		list += " " + gameroom.player1 + " VS " + gameroom.player2 +" ";
-				            		if(gameroom.joinable)
-				            			list += "   Joinable";
-				            		else
-				            			list += "   Spectate";
-				            		list = list + ",";
-				            	}
-				            	
-				            	list = list + "[serverChatLog[ ";
-				            	if(serverMessages.isEmpty())
-				            		list = list + "[";
-				            	for(int i = 0; i<serverMessages.size(); i++){
-				            		list += " " + serverMessages.get(i) + ",";
-				            	}
-				            	System.out.println(list);
-				            	list = list + "\n";
-				            	byte[] ba = list.getBytes("ISO-8859-1");
-				            	ByteBuffer send = ByteBuffer.wrap(ba);
-				            	cchannel.write(send);
-				            }
-				            else if(line.equals("create\n")){ // create a game room 
-				            	System.out.println("creating room\n");
-				            	String port = getPort(cchannel);
-				            	Room game = new Room(port);
-				            	rooms.add(game);
-				            	String message = rooms.size() + "\n";
-				            	cchannel.write(ByteBuffer.wrap(message.getBytes("ISO-8859-1")));
-				            	
-				            }
-				            else if(line.equals("port\n")){
-				            	String port = getPort(cchannel);
-				            	System.out.println(port);
-				            	port = port + "\n";
-				            	cchannel.write(ByteBuffer.wrap(port.getBytes()));
-				            }
-				            else if(line.contains("serverMessage[ ")){
-				            	String[] message = line.split("\\[");
-				            	System.out.println(message[1].trim());
-				            	serverMessages.add(message[1].trim());
-				            	System.out.println("adding message");
-				            	System.out.println(serverMessages.size());
-				            }
-				            else if(line.contains("Join")){
-				            	String[] roomInfo = line.split(" ");
-				            	String roomNumber = roomInfo[1].trim();
-				            	System.out.println(roomNumber);
-				            	int num = Integer.parseInt(roomNumber);
-				            	Room game = rooms.get(num-1);
-				            	if(game.player1.equals(" "))
-				            		game.player1 = getPort(cchannel);
-				            	else
-				            		game.player2 = getPort(cchannel);
-				            	if(!game.player1.equals(" ") && !game.player2.equals(" "))
-				            		game.joinable = false;
-				            }
-				            else if(line.contains("Leave")){
-				            	String[] roomInfo = line.split(" ");
-				            	String playerName = roomInfo[2].trim();
-				            	String roomNumber = roomInfo[1].trim();
-				            	System.out.println(roomNumber + playerName);
 
-				            	int num = Integer.parseInt(roomNumber);
-				            	Room game = rooms.get(num-1);
-				            	if(game.player1.equals(playerName)){
-				            		game.player1 = " ";
-				            		game.joinable = true;
-				            	}
-				            	else{
-				            		game.player2 = " ";
-				            		game.joinable = true;
-				            	}
-				            	if(game.player1.equals(" ") && game.player2.equals(" "))
-				            		rooms.remove(num-1);
-				            }
-				            // this was just for testing shit you should never send the wrong string "DONT FORGET NEW LINES "/n"
-				            else{ 
-				            	System.out.println("command does not exist");
-				            	/*inBuffer.flip();
-					            int bytesSent = cchannel.write(inBuffer);
-					            if(bytesSent != bytesRecv ){
-					            	System.out.println("Write() error, or the connection closed");
-					            	key.cancel(); //deregister the socket
-					            }*/
-				            }
+							// receive from client
+							inBuffer.flip();
+							cBuffer = Charset.forName("ISO-8859-1").decode(inBuffer);
+							line = cBuffer.toString();
+							System.out.println("Client: " + line + "\n");
+
+							if (line.equals("logout\n")) // if the player sends
+															// terminate close
+															// the socket
+							{
+								String message = getPort(cchannel);
+								ports.remove(message);
+								key.cancel();
+							}
+							/*
+							 * every player that connects to the server should
+							 * send login so their info can be saved and the
+							 * other players connected to the lobby can be sent,
+							 * right now I only keep track of port numbers we
+							 * can link that to different users later
+							 */
+
+							/*
+							 * you should be sending login nonstop so you can
+							 * get an updated list of whos in the room, you just
+							 * get a bunch of ports ie 565, 454 ,334 all
+							 * connected. You need to open like 4 different
+							 * ecplise windows to test this sends back an empty
+							 * string if there is no one else but you in the
+							 * lobby
+							 */
+							else if (line.equals("login\n")) {
+								String cleanMessage = getPort(cchannel);
+
+								// if the port is not itself send it back
+								System.out.println("login accepted");
+								ports.add(cleanMessage);
+							}
+							// refreshes everything
+							else if (line.equals("refresh\n")) {
+								String cleanMessage = getPort(cchannel);
+								// if the port is not itself send it back
+								String list = "PLAYERS[";
+								for (int i = 0; i < ports.size(); i++) {
+									if (!ports.get(i).equals(cleanMessage))
+										list += ports.get(i) + ",";
+								}
+								list = list + " [ROOMS[ ";
+								for (int i = 0; i < rooms.size(); i++) {
+									Room gameroom = rooms.get(i);
+
+									list += " " + gameroom.player1 + " VS " + gameroom.player2 + " ";
+									if (gameroom.joinable)
+										list += "   Joinable";
+									else
+										list += "   Spectate";
+									list = list + ",";
+
+								}
+
+								list = list + "[serverChatLog[ ";
+								if (serverMessages.isEmpty())
+									list = list + "[";
+								for (int i = 0; i < serverMessages.size(); i++) {
+									list += " " + serverMessages.get(i) + ",";
+								}
+								System.out.println(list);
+								list = list + "\n";
+								byte[] ba = list.getBytes("ISO-8859-1");
+								ByteBuffer send = ByteBuffer.wrap(ba);
+								cchannel.write(send);
+							} else if (line.equals("create\n")) { // create a
+																	// game room
+								System.out.println("creating room\n");
+								String port = getPort(cchannel);
+								Room game = new Room(port);
+								rooms.add(game);
+							} else if (line.equals("port\n")) {
+								String port = getPort(cchannel);
+								System.out.println(port);
+								port = port + "\n";
+								cchannel.write(ByteBuffer.wrap(port.getBytes()));
+							} else if (line.contains("serverMessage[ ")) {
+								String[] message = line.split("\\[");
+								System.out.println(message[1].trim());
+								serverMessages.add(message[1].trim());
+								System.out.println("adding message");
+								System.out.println(serverMessages.size());
+							} else if (line.contains("Join")) {
+								String[] roomInfo = line.split(" ");
+								String roomNumber = roomInfo[1].trim();
+								System.out.println(roomNumber);
+								int num = Integer.parseInt(roomNumber);
+								Room game = rooms.get(num - 1);
+								if (game.player1.equals(" "))
+									game.player1 = getPort(cchannel);
+								else
+									game.player2 = getPort(cchannel);
+								if (!game.player1.equals(" ") && !game.player2.equals(" "))
+									game.joinable = false;
+							} else if (line.contains("Leave")) {
+								String[] roomInfo = line.split(" ");
+								String playerName = roomInfo[1].trim();
+								System.out.println(playerName);
+								// need to find the right room
+								for (int i = 0; i < rooms.size(); i++) {
+									Room game = rooms.get(i);
+									if (game.player1.equals(playerName)) {
+										game.player1 = " ";
+										game.joinable = true;
+									} else if (game.player2.equals(playerName)) {
+										game.player2 = " ";
+										game.joinable = true;
+									}
+								}
+
+							}
+							// this was just for testing shit you should never
+							// send the wrong string "DONT FORGET NEW LINES "/n"
+							else {
+								System.out.println("command does not exist");
+								/*
+								 * inBuffer.flip(); int bytesSent =
+								 * cchannel.write(inBuffer); if(bytesSent !=
+								 * bytesRecv ){ System.out.println(
+								 * "Write() error, or the connection closed");
+								 * key.cancel(); //deregister the socket }
+								 */
+							}
 						}
-						
-						
+
 					}
 				}
-			
+
 			}
+		} catch (IOException e) {
+			System.out.println(e);
 		}
-		catch(IOException e) {System.out.println(e); }
-		//close all connections
+		// close all connections
 		Iterator itr = selector.keys().iterator();
-		while(itr.hasNext()){
-			SelectionKey key = (SelectionKey)itr.next();
-			if(key.isAcceptable())
-				((ServerSocketChannel)key.channel()).socket().close();
-			else if(key.isValid())
-				((SocketChannel)key.channel()).socket().close();
+		while (itr.hasNext()) {
+			SelectionKey key = (SelectionKey) itr.next();
+			if (key.isAcceptable())
+				((ServerSocketChannel) key.channel()).socket().close();
+			else if (key.isValid())
+				((SocketChannel) key.channel()).socket().close();
 		}
-	}
-	public static String getPort(SocketChannel cchannel) throws IOException{
-		String port = cchannel.getRemoteAddress().toString();
-    	String[] message = port.split(",");
-    	message = message[0].split(":");
-    	String cleanMessage = message[1];
-    	return cleanMessage;
 	}
 
-	
+	public static String getPort(SocketChannel cchannel) throws IOException {
+		String port = cchannel.getRemoteAddress().toString();
+		String[] message = port.split(",");
+		message = message[0].split(":");
+		String cleanMessage = message[1];
+		return cleanMessage;
+	}
+
 }
