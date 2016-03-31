@@ -176,7 +176,7 @@ public class ConnectFour extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					timer.stop();
-					Game newGame = new Game();
+					Game newGame = new Game(client);
 					newGame.setVisible(true);
 					client.createGame(playerName);
 				}
@@ -205,14 +205,13 @@ public class ConnectFour extends JFrame {
 								client.joinGame(choice);
 								break;
 							} catch (IOException e1) {
-								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
 						}
 					}
 				}
 				timer.stop();
-				Game joinGame = new Game();
+				Game joinGame = new Game(client);
 				joinGame.setVisible(true);
 			}
 		});
@@ -238,7 +237,7 @@ public class ConnectFour extends JFrame {
 		JButton btnSend = new JButton(">");
 		btnSend.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO: Send chat message to the server
+				//Send chat message to the server
 				//Grab the message content from chatTxtField and send it to the server.
 				String message = chatTxtField.getText();
 				chatTxtField.setText(null);
@@ -273,6 +272,7 @@ public class ConnectFour extends JFrame {
 		
 		//JButton btnRefresh = new JButton("Refresh");
 		//btnRefresh.addActionListener(new ActionListener() {
+		// refresh timer
 		timer = new Timer(2500, new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				if(!players.isEmpty())
@@ -282,7 +282,7 @@ public class ConnectFour extends JFrame {
 				if(!chatHistory.isEmpty())
 					chatHistory.clear();
 				try {
-					//TODO: populate the game rooms list frame. * DONE*
+					//populate the game rooms list frame. * DONE*
 					//same way you did it for players
 					client.refresh();
 					String[] playerList = client.getPlayers();
@@ -330,7 +330,7 @@ public class ConnectFour extends JFrame {
 					logout();
 	            }
 	            catch(Exception ex){
-	            	
+	            	ex.printStackTrace();
 	            }
 		        System.exit(-1);
 	            	
