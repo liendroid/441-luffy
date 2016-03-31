@@ -19,6 +19,7 @@ public class Client{
 	private String[] players;
 	private String[] rooms;
 	private String[] serverMessages;
+	private int roomEntered;
 	
 	public Client(String IP, int port) throws Exception
 	{
@@ -50,6 +51,9 @@ public class Client{
     	
     	String line = "create\n";
     	outBuffer.write(line.getBytes("ISO-8859-1"));
+    	line = inBuffer.readLine().trim();
+    	this.roomEntered = Integer.parseInt(line);
+    	
     }
     
     public void refresh() throws IOException
@@ -88,7 +92,17 @@ public class Client{
 		return this.serverMessages;
 	}
 	public void joinGame(int choice) throws IOException {
+		this.roomEntered = choice;
 		String message = "Join " + choice + "\n";
+		outBuffer.write(message.getBytes());
+	}
+	public void leaveGame() throws IOException {
+		String message2 = "port\n";
+		outBuffer.write(message2.getBytes());
+		String receive = inBuffer.readLine();
+		
+		int choice = this.roomEntered;
+		String message = "Leave " + choice + " " + receive +  "\n";
 		outBuffer.write(message.getBytes());
 	}
 

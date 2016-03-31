@@ -425,6 +425,11 @@ public class Game extends JFrame {
 			@Override
 			public void windowClosed(WindowEvent e) {
 				// TODO: remove myself from the game room 
+				try {
+					client.leaveGame();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 	}

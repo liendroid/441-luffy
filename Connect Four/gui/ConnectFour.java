@@ -175,7 +175,7 @@ public class ConnectFour extends JFrame {
 		btnCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					timer.stop();
+					//timer.stop();
 					Game newGame = new Game(client);
 					newGame.setVisible(true);
 					client.createGame(playerName);
@@ -210,7 +210,7 @@ public class ConnectFour extends JFrame {
 						}
 					}
 				}
-				timer.stop();
+				//timer.stop();
 				Game joinGame = new Game(client);
 				joinGame.setVisible(true);
 			}

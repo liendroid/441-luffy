@@ -137,8 +137,8 @@ public class ServerLobby{
 				            	String port = getPort(cchannel);
 				            	Room game = new Room(port);
 				            	rooms.add(game);
-				            	//String message = "Room created\n";
-				            	//cchannel.write(ByteBuffer.wrap(message.getBytes("ISO-8859-1")));
+				            	String message = rooms.size() + "\n";
+				            	cchannel.write(ByteBuffer.wrap(message.getBytes("ISO-8859-1")));
 				            	
 				            }
 				            else if(line.equals("port\n")){
@@ -160,7 +160,31 @@ public class ServerLobby{
 				            	System.out.println(roomNumber);
 				            	int num = Integer.parseInt(roomNumber);
 				            	Room game = rooms.get(num-1);
-				            	game.player2 = getPort(cchannel);
+				            	if(game.player1.equals(" "))
+				            		game.player1 = getPort(cchannel);
+				            	else
+				            		game.player2 = getPort(cchannel);
+				            	if(!game.player1.equals(" ") && !game.player2.equals(" "))
+				            		game.joinable = false;
+				            }
+				            else if(line.contains("Leave")){
+				            	String[] roomInfo = line.split(" ");
+				            	String playerName = roomInfo[2].trim();
+				            	String roomNumber = roomInfo[1].trim();
+				            	System.out.println(roomNumber + playerName);
+
+				            	int num = Integer.parseInt(roomNumber);
+				            	Room game = rooms.get(num-1);
+				            	if(game.player1.equals(playerName)){
+				            		game.player1 = " ";
+				            		game.joinable = true;
+				            	}
+				            	else{
+				            		game.player2 = " ";
+				            		game.joinable = true;
+				            	}
+				            	if(game.player1.equals(" ") && game.player2.equals(" "))
+				            		rooms.remove(num-1);
 				            }
 				            // this was just for testing shit you should never send the wrong string "DONT FORGET NEW LINES "/n"
 				            else{ 
