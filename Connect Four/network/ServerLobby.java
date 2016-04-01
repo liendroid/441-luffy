@@ -81,18 +81,15 @@ public class ServerLobby {
 							line = cBuffer.toString();
 							System.out.println("Client: " + line + "\n");
 
-							if (line.equals("logout\n")) // if the player sends
-															// terminate close
-															// the socket
-							{
+							if (line.equals("logout\n")) {
 								String message = getPort(cchannel);
 								User[] users = db.getUserDB();
-								for(int i =0; i<users.length; i++){
-									if(users[i].getPortNumber() == Integer.parseInt(message)){
+								for (int i = 0; i < users.length; i++) {
+									if (users[i].getPortNumber() == Integer.parseInt(message)) {
 										players.remove(users[i].getUsername());
-										key.cancel();		
+										key.cancel();
 									}
-										
+
 								}
 							}
 							/*
@@ -112,13 +109,13 @@ public class ServerLobby {
 							 * string if there is no one else but you in the
 							 * lobby
 							 */
-							else if (line.contains("login")){
+							else if (line.contains("login")) {
 								String[] messageInfo = line.split(" ");
 								String playerName = messageInfo[1].trim();
 								String cleanMessage = getPort(cchannel);
 								User[] users = db.getUserDB();
-								for(int i =0; i < users.length; i++){
-									if(users[i].getUsername().equals(playerName))
+								for (int i = 0; i < users.length; i++) {
+									if (users[i].getUsername().equals(playerName))
 										users[i].setPortNumber(Integer.parseInt(cleanMessage));
 								}
 
@@ -126,13 +123,14 @@ public class ServerLobby {
 								System.out.println("login accepted");
 								players.add(playerName);
 							}
+
 							// refreshes everything
 							else if (line.equals("refresh\n")) {
 								String playerName = " ";
 								String cleanMessage = getPort(cchannel);
 								User[] users = db.getUserDB();
-								for(int i = 0; i<users.length;i++){
-									if(users[i].getPortNumber() == Integer.parseInt(cleanMessage))
+								for (int i = 0; i < users.length; i++) {
+									if (users[i].getPortNumber() == Integer.parseInt(cleanMessage))
 										playerName = users[i].getUsername();
 								}
 								// if the port is not itself send it back
@@ -165,49 +163,50 @@ public class ServerLobby {
 								byte[] ba = list.getBytes("ISO-8859-1");
 								ByteBuffer send = ByteBuffer.wrap(ba);
 								cchannel.write(send);
+
 							} else if (line.equals("create\n")) { // create a
 																	// game room
 								System.out.println("creating room\n");
 								String port = getPort(cchannel);
 								String playerName = " ";
 								User[] users = db.getUserDB();
-								for(int i = 0; i < users.length; i++){
-									if(users[i].getPortNumber() == Integer.parseInt(port))
+								for (int i = 0; i < users.length; i++) {
+									if (users[i].getPortNumber() == Integer.parseInt(port))
 										playerName = users[i].getUsername();
 								}
 								Room game = new Room(playerName);
 								rooms.add(game);
-								
+
 							} else if (line.equals("port\n")) {
 								String port = getPort(cchannel);
 								System.out.println(port);
 								port = port + "\n";
 								cchannel.write(ByteBuffer.wrap(port.getBytes()));
-								
+
 							} else if (line.contains("serverMessage[ ")) {
 								String[] message = line.split("\\[");
 								String[] message2 = message[1].split(":");
 								String port = message2[0].trim();
 								User[] users = db.getUserDB();
 								String playerName = " ";
-								for(int i = 0; i < users.length; i++){
-									if(users[i].getPortNumber() == Integer.parseInt(port))
+								for (int i = 0; i < users.length; i++) {
+									if (users[i].getPortNumber() == Integer.parseInt(port))
 										playerName = users[i].getUsername();
 								}
 								String convertedMessage = playerName + ": " + message2[1].trim();
 								serverMessages.add(convertedMessage);
 								System.out.println("adding message");
 								System.out.println(serverMessages.size());
-								
+
 							} else if (line.contains("Join")) {
 								String port = getPort(cchannel);
 								User[] users = db.getUserDB();
 								String playerName = " ";
-								for(int i = 0; i < users.length; i++){
-									if(users[i].getPortNumber() == Integer.parseInt(port))
+								for (int i = 0; i < users.length; i++) {
+									if (users[i].getPortNumber() == Integer.parseInt(port))
 										playerName = users[i].getUsername();
 								}
-								
+
 								String[] roomInfo = line.split(" ");
 								String roomNumber = roomInfo[1].trim();
 								System.out.println(roomNumber);
@@ -219,13 +218,14 @@ public class ServerLobby {
 									game.player2 = playerName;
 								if (!game.player1.equals(" ") && !game.player2.equals(" "))
 									game.joinable = false;
+
 							} else if (line.contains("Leave")) {
 								String[] roomInfo = line.split(" ");
 								String port = roomInfo[1].trim();
 								User[] users = db.getUserDB();
 								String playerName = " ";
-								for(int i = 0; i < users.length; i++){
-									if(users[i].getPortNumber() == Integer.parseInt(port))
+								for (int i = 0; i < users.length; i++) {
+									if (users[i].getPortNumber() == Integer.parseInt(port))
 										playerName = users[i].getUsername();
 								}
 								System.out.println(playerName);
@@ -239,9 +239,31 @@ public class ServerLobby {
 										game.player2 = " ";
 										game.joinable = true;
 									}
+									// remove them if they are a spectator
+									for (int h = 0; h < game.spectators.size(); h++) {
+										if (game.spectators.get(i).equals(playerName))
+											game.spectators.remove(playerName);
+									}
+								}
+							}
+
+							else if (line.contains("Spectate")) {
+								String port = getPort(cchannel);
+								User[] users = db.getUserDB();
+								String playerName = " ";
+								for (int i = 0; i < users.length; i++) {
+									if (users[i].getPortNumber() == Integer.parseInt(port))
+										playerName = users[i].getUsername();
 								}
 
+								String[] roomInfo = line.split(" ");
+								String roomNumber = roomInfo[1].trim();
+								System.out.println(roomNumber);
+								int num = Integer.parseInt(roomNumber);
+								Room game = rooms.get(num - 1);
+								game.spectators.add(playerName);
 							}
+
 							// this was just for testing shit you should never
 							// send the wrong string "DONT FORGET NEW LINES "/n"
 							else {

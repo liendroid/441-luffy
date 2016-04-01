@@ -79,7 +79,7 @@ public class ConnectFour extends JFrame {
 
 		initMainMenu();
 		initGameLobby();
-	
+
 	}
 
 	public void initMainMenu() {
@@ -294,6 +294,29 @@ public class ConnectFour extends JFrame {
 		// gameLobbyPanel.add(btnRefresh);
 
 		JButton btnSpectate = new JButton("Spectate");
+		btnSpectate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				while (true) {
+					String path = JOptionPane.showInputDialog("which room?");
+					int choice = Integer.parseInt(path);
+					// System.out.println(choice);
+					String[] rooms = client.getRooms();
+					if (choice <= rooms.length) {// room exists
+						String room = rooms[choice - 1];
+						try {
+							client.spectateGame(choice);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						break;
+					}
+				}
+				// timer.stop();
+				Game spectateGame = new Game(client);
+				spectateGame.setVisible(true);
+			}
+		});
 		btnSpectate.setFont(new Font("Roboto Condensed", Font.PLAIN, 18));
 		btnSpectate.setBounds(648, 448, 103, 31);
 		gameLobbyPanel.add(btnSpectate);
@@ -325,21 +348,18 @@ public class ConnectFour extends JFrame {
 
 	}
 
-	public boolean login(String username, String password)
-	{
+	public boolean login(String username, String password) {
 		User[] users = uDB.getUserDB();
-		for(int i = 0; i < users.length; i++)
-		{
+		for (int i = 0; i < users.length; i++) {
 			String user = users[i].getUsername();
 			String pw = users[i].getPassword();
-			if(user.equals(username) && pw.equals(password))
-			{
+			if (user.equals(username) && pw.equals(password)) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	public void switchCards() {
 		boolean userEmpty = usernameTxtfield.getText().isEmpty();
 		char[] pw = passwordTxtfield.getPassword();
@@ -351,13 +371,12 @@ public class ConnectFour extends JFrame {
 		if (!userEmpty && !pwEmpty && !ipEmpty && !portEmpty) {
 			int portNumber = Integer.parseInt(portNumberTxtField.getText());
 			try {
-				
+
 				boolean loginSuccess = login(usernameTxtfield.getText(), fullPw);
-				if(loginSuccess)
-				{
-					
+				if (loginSuccess) {
+
 					playerName = usernameTxtfield.getText();
-					
+
 					client = new Client(ipAddress, portNumber);
 					client.login(playerName);
 
@@ -366,14 +385,11 @@ public class ConnectFour extends JFrame {
 					// populate the the games and current players
 					cLayout.show(contentPane, "gameLobbyCard");
 					timer.start();
-				}
-				else
-				{
+				} else {
 					JOptionPane.showMessageDialog(null, "Login failed.");
 				}
-				
-			} 
-			catch (Exception e) {
+
+			} catch (Exception e) {
 				JOptionPane.showMessageDialog(null, e);
 			}
 		} else if (userEmpty) {

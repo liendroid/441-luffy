@@ -101,4 +101,9 @@ public class Client {
 		outBuffer.write(message.getBytes());
 	}
 
+	public void spectateGame(int choice) throws IOException {
+		String message = "Spectate " + choice + "\n";
+		outBuffer.write(message.getBytes());
+	}
+
 }
