@@ -44,7 +44,7 @@ public class ConnectFour extends JFrame {
 	private JList<String> gamesLobbyList;
 	private DefaultListModel<String> players;
 	private Timer timer;
-	private UserDB uDB;
+	private UserDB uDB = new UserDB();
 
 	private String playerName;
 

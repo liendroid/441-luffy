@@ -112,10 +112,9 @@ public class ServerLobby {
 							 * string if there is no one else but you in the
 							 * lobby
 							 */
-							else if (line.contains("login\n")){
-								String[] messageInfo = line.split("");
+							else if (line.contains("login")){
+								String[] messageInfo = line.split(" ");
 								String playerName = messageInfo[1].trim();
-								System.out.println(playerName);
 								String cleanMessage = getPort(cchannel);
 								User[] users = db.getUserDB();
 								for(int i =0; i < users.length; i++){
@@ -170,34 +169,65 @@ public class ServerLobby {
 																	// game room
 								System.out.println("creating room\n");
 								String port = getPort(cchannel);
-								Room game = new Room(port);
+								String playerName = " ";
+								User[] users = db.getUserDB();
+								for(int i = 0; i < users.length; i++){
+									if(users[i].getPortNumber() == Integer.parseInt(port))
+										playerName = users[i].getUsername();
+								}
+								Room game = new Room(playerName);
 								rooms.add(game);
+								
 							} else if (line.equals("port\n")) {
 								String port = getPort(cchannel);
 								System.out.println(port);
 								port = port + "\n";
 								cchannel.write(ByteBuffer.wrap(port.getBytes()));
+								
 							} else if (line.contains("serverMessage[ ")) {
 								String[] message = line.split("\\[");
-								System.out.println(message[1].trim());
-								serverMessages.add(message[1].trim());
+								String[] message2 = message[1].split(":");
+								String port = message2[0].trim();
+								User[] users = db.getUserDB();
+								String playerName = " ";
+								for(int i = 0; i < users.length; i++){
+									if(users[i].getPortNumber() == Integer.parseInt(port))
+										playerName = users[i].getUsername();
+								}
+								String convertedMessage = playerName + ": " + message2[1].trim();
+								serverMessages.add(convertedMessage);
 								System.out.println("adding message");
 								System.out.println(serverMessages.size());
+								
 							} else if (line.contains("Join")) {
+								String port = getPort(cchannel);
+								User[] users = db.getUserDB();
+								String playerName = " ";
+								for(int i = 0; i < users.length; i++){
+									if(users[i].getPortNumber() == Integer.parseInt(port))
+										playerName = users[i].getUsername();
+								}
+								
 								String[] roomInfo = line.split(" ");
 								String roomNumber = roomInfo[1].trim();
 								System.out.println(roomNumber);
 								int num = Integer.parseInt(roomNumber);
 								Room game = rooms.get(num - 1);
 								if (game.player1.equals(" "))
-									game.player1 = getPort(cchannel);
+									game.player1 = playerName;
 								else
-									game.player2 = getPort(cchannel);
+									game.player2 = playerName;
 								if (!game.player1.equals(" ") && !game.player2.equals(" "))
 									game.joinable = false;
 							} else if (line.contains("Leave")) {
 								String[] roomInfo = line.split(" ");
-								String playerName = roomInfo[1].trim();
+								String port = roomInfo[1].trim();
+								User[] users = db.getUserDB();
+								String playerName = " ";
+								for(int i = 0; i < users.length; i++){
+									if(users[i].getPortNumber() == Integer.parseInt(port))
+										playerName = users[i].getUsername();
+								}
 								System.out.println(playerName);
 								// need to find the right room
 								for (int i = 0; i < rooms.size(); i++) {

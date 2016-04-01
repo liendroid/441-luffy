@@ -38,7 +38,7 @@ public class Client {
 
 	public void login(String playerName) throws IOException {
 		// needs to check the db and verify user creds
-		String line = "login" + playerName + "\n";
+		String line = "login " + playerName + "\n";
 		outBuffer.write(line.getBytes("ISO-8859-1"));
 	}
 
@@ -77,7 +77,7 @@ public class Client {
 		String message2 = "port\n";
 		outBuffer.write(message2.getBytes());
 		String receive = inBuffer.readLine();
-
+		
 		String message = "serverMessage[ " + receive + ":" + send + "[" + "\n";
 		outBuffer.write(message.getBytes());
 		System.out.println(message);
