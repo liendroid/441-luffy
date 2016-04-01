@@ -262,6 +262,96 @@ public class ServerLobby {
 								int num = Integer.parseInt(roomNumber);
 								Room game = rooms.get(num - 1);
 								game.spectators.add(playerName);
+							} else if (line.contains("gameMessage[ ")) {
+								String[] message = line.split("\\[");
+								String[] message2 = message[1].split(":");
+								String port = message2[0].trim();
+								User[] users = db.getUserDB();
+								String playerName = " ";
+								for (int i = 0; i < users.length; i++) {
+									if (users[i].getPortNumber() == Integer.parseInt(port))
+										playerName = users[i].getUsername();
+								}
+								String convertedMessage = playerName + ": " + message2[1].trim();
+								// add it to the game lobby
+								for (int i = 0; i < rooms.size(); i++) {
+									if (rooms.get(i).player1.equals(playerName)
+											|| rooms.get(i).player2.equals(playerName)) {
+										rooms.get(i).roomMessages.add(convertedMessage);
+										System.out.println("adding message");
+										System.out.println(rooms.get(i).roomMessages.size());
+									} else {
+										for (int h = 0; h < rooms.get(i).spectators.size(); h++) {
+											if (rooms.get(i).spectators.get(h).equals(playerName)) {
+												rooms.get(i).roomMessages.add(convertedMessage);
+												System.out.println("adding message");
+												System.out.println(rooms.get(i).roomMessages.size());
+											}
+										}
+									}
+								}
+							}
+
+							// refreshes game
+							else if (line.equals("refreshGame\n")) {
+								String playerName = " ";
+								String cleanMessage = getPort(cchannel);
+								User[] users = db.getUserDB();
+								for (int i = 0; i < users.length; i++) {
+									if (users[i].getPortNumber() == Integer.parseInt(cleanMessage))
+										playerName = users[i].getUsername();
+								}
+								// find the correct room to send data for
+								int currentRoom = 0;
+								for (int i = 0; i < rooms.size(); i++) {
+									if (rooms.get(i).player1.equals(playerName)
+											|| rooms.get(i).player2.equals(playerName))
+										currentRoom = i;
+									else {
+										for (int h = 0; h < rooms.get(i).spectators.size(); h++) {
+											if (rooms.get(i).spectators.get(h).equals(playerName))
+												currentRoom = i;
+										}
+									}
+								}
+								// current room we are inside
+								Room room = rooms.get(currentRoom);
+								// if the person is a player print the opponent
+								String list = "PLAYERS[ ";
+								if (room.player1.equals(playerName) || room.player2.equals(playerName)) {
+									if (!room.player1.equals(" ")) {
+										if (!room.player1.equals(playerName))
+											list = list + "OPPONENT: " + room.player1 + ",";
+									}
+									if (!room.player2.equals(" ")) {
+										if (!room.player2.equals(playerName))
+											list = list + "OPPONENT: " + room.player2 + ",";
+									}
+								}
+								// person is a spectator list both players
+								else {
+									if (!room.player1.equals(" "))
+										list = list + "Player 1: " + room.player1 + ",";
+									if (!room.player2.equals(" "))
+										list = list + "Player 2: " + room.player2 + ",";
+								}
+
+								list = list + " [SPECTATORS[ ";
+								for (int i = 0; i < room.spectators.size(); i++) {
+									list = list + "Spectator: " + room.spectators.get(i) + ",";
+								}
+
+								list = list + "[gameChatLog[ ";
+								if (room.roomMessages.isEmpty())
+									list = list + "[";
+								for (int i = 0; i < room.roomMessages.size(); i++) {
+									list += " " + room.roomMessages.get(i) + ",";
+								}
+								System.out.println(list);
+								list = list + "\n";
+								byte[] ba = list.getBytes("ISO-8859-1");
+								ByteBuffer send = ByteBuffer.wrap(ba);
+								cchannel.write(send);
 							}
 
 							// this was just for testing shit you should never

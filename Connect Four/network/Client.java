@@ -18,6 +18,9 @@ public class Client {
 	private String[] players;
 	private String[] rooms;
 	private String[] serverMessages;
+	private String[] roomplayers;
+	private String[] roomMessages;
+	private String[] spectators;
 
 	public Client(String IP, int port) throws Exception {
 
@@ -104,6 +107,47 @@ public class Client {
 	public void spectateGame(int choice) throws IOException {
 		String message = "Spectate " + choice + "\n";
 		outBuffer.write(message.getBytes());
+	}
+
+	public void gameMessage(String send) throws IOException {
+		String message2 = "port\n";
+		outBuffer.write(message2.getBytes());
+		String receive = inBuffer.readLine();
+		
+		String message = "gameMessage[ " + receive + ":" + send + "[" + "\n";
+		outBuffer.write(message.getBytes());
+		System.out.println(message);
+		
+	}
+
+	public void refreshGame() throws UnsupportedEncodingException, IOException {
+		// get player list
+				String line = "refreshGame\n";
+				outBuffer.write(line.getBytes("ISO-8859-1"));
+
+				line = inBuffer.readLine();
+				System.out.println("Server: " + line);
+				String[] message = line.split("\\[");
+				String players = message[1].trim();
+				String spectators = message[3].trim();
+				String serverMessages = message[5].trim();
+
+				this.roomplayers = players.split(",");
+				this.spectators = spectators.split(",");
+				this.roomMessages = serverMessages.split(",");
+		
+	}
+
+	public String[] getRoomPlayers() {
+		return this.roomplayers;
+	}
+
+	public String[] getSpectators() {
+		return this.spectators;
+	}
+
+	public String[] getGameMessages() {
+		return this.roomMessages;
 	}
 
 }

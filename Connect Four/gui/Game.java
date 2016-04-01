@@ -283,10 +283,6 @@ public class Game extends JFrame {
 		contentPane.add(gameChatHistoryTxtPane);
 
 		DefaultListModel<String> chatHistory = new DefaultListModel<String>();
-		chatHistory.addElement("Dan the great: yo");
-		chatHistory.addElement("Really hot bitch: I will serve you forever");
-		chatHistory.addElement("Dan the great: coo");
-		// TODO: chat history list
 
 		JList<String> chatHistoryList = new JList<String>(chatHistory);
 		gameChatHistoryTxtPane.setViewportView(chatHistoryList);
@@ -300,9 +296,16 @@ public class Game extends JFrame {
 		JButton btnGameChatSend = new JButton(">");
 		btnGameChatSend.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO: Send the server chat info. You got the drill.
 				// pull the information from gameChatTxtField and send it to the
 				// server.
+				String message = gameChatTxtField.getText();
+				gameChatTxtField.setText(null);
+				try {
+					client.gameMessage(message);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+
 			}
 		});
 		btnGameChatSend.setFont(new Font("Roboto Condensed", Font.PLAIN, 11));
@@ -315,10 +318,7 @@ public class Game extends JFrame {
 		contentPane.add(playerTxtPane);
 
 		DefaultListModel<String> players = new DefaultListModel<String>();
-		players.addElement("test");
-		players.addElement("test 2");
 
-		// TODO: player list
 		JList<String> gamePlayerList = new JList<String>(players);
 		playerTxtPane.setViewportView(gamePlayerList);
 
@@ -412,21 +412,42 @@ public class Game extends JFrame {
 		btnGameBoard.setBounds(21, 82, 789, 472);
 		contentPane.add(btnGameBoard);
 
+		//TODO: We gonna need to update the board here also its gonna be a pain
 		timer = new Timer(2500, new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// if all the panes we are refreshing are not empty clear them
 
-				// TODO: populate the players and spectators
-				// TODO: update the chatroom
+				if (!players.isEmpty())
+					players.clear();
+				if (!chatHistory.isEmpty())
+					chatHistory.clear();
+				try {
+					// populate the game rooms list frame. * DONE*
+					// same way you did it for players
+					client.refreshGame();
+					String[] playerList = client.getRoomPlayers();
+					String[] spectatorList = client.getSpectators();
+					String[] gameMessagesList = client.getGameMessages();
+					for (int i = 0; i < playerList.length; i++)
+						players.addElement(playerList[i]);
+					for (int i = 0; i < spectatorList.length; i++)
+						players.addElement(spectatorList[i]);
+					for (int i = 0; i < gameMessagesList.length; i++)
+						chatHistory.addElement(gameMessagesList[i]);
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		});
+		timer.start();
 
 		// what happens when you hit close window
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
-				// TODO: remove myself from the game room
 				try {
+					timer.stop();
 					client.leaveGame();
 				} catch (IOException e1) {
 					e1.printStackTrace();
