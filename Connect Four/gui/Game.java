@@ -48,6 +48,7 @@ public class Game extends JFrame {
 	private boolean validMove;
 	private boolean winCondition;
 	private boolean draw;
+	private char colour  = ' ';
 	/**
 	 * Create the frame.
 	 * 
@@ -96,10 +97,6 @@ public class Game extends JFrame {
 		btn41.setBounds(133, 305, 89, 48);
 		contentPane.add(btn41);
 
-		JButton btn12 = new JButton("");
-		btn12.setBounds(232, 109, 82, 48);
-		contentPane.add(btn12);
-
 		JButton btn22 = new JButton("");
 		btn22.setBounds(232, 168, 82, 48);
 		contentPane.add(btn22);
@@ -116,25 +113,13 @@ public class Game extends JFrame {
 		btn31.setBounds(133, 240, 89, 48);
 		contentPane.add(btn31);
 
-		JButton btn11 = new JButton("");
-		btn11.setBounds(133, 109, 89, 48);
-		contentPane.add(btn11);
-
 		JButton btn30 = new JButton("");
 		btn30.setBounds(33, 240, 89, 48);
 		contentPane.add(btn30);
 
-		JButton btn13 = new JButton("");
-		btn13.setBounds(324, 109, 80, 48);
-		contentPane.add(btn13);
-
 		JButton btn40 = new JButton("");
 		btn40.setBounds(33, 305, 89, 48);
 		contentPane.add(btn40);
-
-		JButton btn10 = new JButton("");
-		btn10.setBounds(33, 109, 89, 48);
-		contentPane.add(btn10);
 
 		JButton btn53 = new JButton("");
 		btn53.setBounds(324, 372, 80, 48);
@@ -151,14 +136,6 @@ public class Game extends JFrame {
 		JButton btn56 = new JButton("");
 		btn56.setBounds(616, 372, 89, 48);
 		contentPane.add(btn56);
-
-		JButton btn77 = new JButton("");
-		btn77.setBounds(715, 499, 80, 48);
-		contentPane.add(btn77);
-
-		JButton btn47 = new JButton("");
-		btn47.setBounds(715, 305, 80, 48);
-		contentPane.add(btn47);
 
 		JButton btn46 = new JButton("");
 		btn46.setBounds(616, 305, 89, 48);
@@ -184,18 +161,10 @@ public class Game extends JFrame {
 		btn36.setBounds(616, 240, 89, 48);
 		contentPane.add(btn36);
 
-		JButton btn17 = new JButton("");
-		btn17.setBounds(715, 109, 80, 48);
-		contentPane.add(btn17);
-
 		JButton btn75 = new JButton("");
 		btn75.setBounds(519, 499, 83, 48);
 		contentPane.add(btn75);
-
-		JButton btn15 = new JButton("");
-		btn15.setBounds(519, 109, 83, 48);
-		contentPane.add(btn15);
-
+		
 		JButton btn44 = new JButton("");
 		btn44.setBounds(421, 305, 82, 48);
 		contentPane.add(btn44);
@@ -207,15 +176,7 @@ public class Game extends JFrame {
 		JButton btn24 = new JButton("");
 		btn24.setBounds(421, 168, 82, 48);
 		contentPane.add(btn24);
-
-		JButton btn16 = new JButton("");
-		btn16.setBounds(616, 109, 89, 48);
-		contentPane.add(btn16);
-
-		JButton btn27 = new JButton("");
-		btn27.setBounds(715, 168, 80, 48);
-		contentPane.add(btn27);
-
+		
 		JButton btn45 = new JButton("");
 		btn45.setBounds(519, 305, 83, 48);
 		contentPane.add(btn45);
@@ -224,10 +185,6 @@ public class Game extends JFrame {
 		btn26.setBounds(616, 168, 89, 48);
 		contentPane.add(btn26);
 
-		JButton btn57 = new JButton("");
-		btn57.setBounds(715, 372, 80, 48);
-		contentPane.add(btn57);
-
 		JButton btn55 = new JButton("");
 		btn55.setBounds(519, 372, 83, 48);
 		contentPane.add(btn55);
@@ -235,14 +192,6 @@ public class Game extends JFrame {
 		JButton btn74 = new JButton("");
 		btn74.setBounds(421, 499, 82, 48);
 		contentPane.add(btn74);
-
-		JButton btn37 = new JButton("");
-		btn37.setBounds(715, 240, 80, 48);
-		contentPane.add(btn37);
-
-		JButton btn14 = new JButton("");
-		btn14.setBounds(421, 109, 82, 48);
-		contentPane.add(btn14);
 
 		JButton btn72 = new JButton("");
 		btn72.setBounds(232, 499, 82, 48);
@@ -259,10 +208,6 @@ public class Game extends JFrame {
 		JButton btn65 = new JButton("");
 		btn65.setBounds(519, 436, 83, 48);
 		contentPane.add(btn65);
-
-		JButton btn67 = new JButton("");
-		btn67.setBounds(715, 436, 80, 48);
-		contentPane.add(btn67);
 
 		JButton btn66 = new JButton("");
 		btn66.setBounds(616, 436, 89, 48);
@@ -289,8 +234,6 @@ public class Game extends JFrame {
 		contentPane.add(btn60);
 
 		JButton btn70 = new JButton("");
-		// btn11.setIcon(new
-		// ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
 		btn70.setBounds(33, 499, 89, 48);
 		contentPane.add(btn70);
 
@@ -345,36 +288,37 @@ public class Game extends JFrame {
 				// TODO: Tell the server Column 1 was selected
 				// once the server tells you what button is needed, you have to
 				// change the icon. like so.
-
+				activePlayers = client.getRoomPlayers();
+	
 				if(board[5][0] == '.'){
 					board[5][0] = 'R';
-					btn70.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					//btn70.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
 					
 					
 				}
 				else if(board[4][0] == '.'){
 					board[4][0] = 'R';
-					btn60.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					//btn60.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
 					
 				}
 				else if(board[3][0] == '.'){
 					board[3][0] = 'R';
-					btn50.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					//btn50.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
 					
 				}
 				else if(board[2][0] == '.'){
 					board[2][0] = 'R';
-					btn40.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					//btn40.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
 					
 				}
 				else if(board[1][0] == '.'){
 					board[1][0] = 'R';
-					btn30.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					//btn30.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
 					
 				}
 				else if(board[0][0] == '.'){
 					board[0][0] = 'R';
-					btn20.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					//btn20.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
 					
 				}
 				/*
@@ -440,6 +384,7 @@ public class Game extends JFrame {
 
 		JButton btnCol2 = new JButton("");
 		btnCol2.addActionListener(new ActionListener() {
+			//TODO: column 3
 			public void actionPerformed(ActionEvent e) {
 				if(board[5][2] == '.'){
 					board[5][2] = 'R';
@@ -485,6 +430,7 @@ public class Game extends JFrame {
 		JButton btnCol3 = new JButton("");
 		btnCol3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//TODO: column 4
 				if(board[5][3] == '.'){
 					board[5][3] = 'R';
 					btn73.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
@@ -529,6 +475,7 @@ public class Game extends JFrame {
 		JButton btnCol4 = new JButton("");
 		btnCol4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//TODO: column 5
 				if(board[5][4] == '.'){
 					board[5][4] = 'R';
 					btn74.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
@@ -573,6 +520,7 @@ public class Game extends JFrame {
 		JButton btnCol5 = new JButton("");
 		btnCol5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//TODO: column 6
 				if(board[5][5] == '.'){
 					board[5][5] = 'R';
 					btn75.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
@@ -617,6 +565,7 @@ public class Game extends JFrame {
 		JButton btnCol6 = new JButton("");
 		btnCol6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//TODO: column 7
 				if(board[5][6] == '.'){
 					board[5][6] = 'R';
 					btn76.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
@@ -658,56 +607,12 @@ public class Game extends JFrame {
 		btnCol6.setBounds(640, 48, 39, 23);
 		contentPane.add(btnCol6);
 
-		JButton btnCol7 = new JButton("");
-		btnCol7.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(board[5][7] == '.'){
-					board[5][7] = 'R';
-					btn77.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
-					
-				}
-				else if(board[4][7] == '.'){
-					board[4][7] = 'R';
-					btn67.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
-					
-				}
-				else if(board[3][7] == '.'){
-					board[3][7] = 'R';
-					btn57.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
-					
-				}
-				else if(board[2][7] == '.'){
-					board[2][7] = 'R';
-					btn47.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
-					
-				}
-				else if(board[1][7] == '.'){
-					board[1][7] = 'R';
-					btn37.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
-					
-				}
-				else if(board[0][7] == '.'){
-					board[0][7] = 'R';
-					btn27.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
-					
-				}	
-				/*
-				if(logic.checkWin(board, 'R'))
-					//stop game
-				else if(logic.checkDraw(board))
-					//stop game
-				*/
-			}
-		});
-		btnCol7.setBounds(736, 48, 39, 23);
-		contentPane.add(btnCol7);
-
-		JButton btnGameBoard = new JButton();
+		/*JButton btnGameBoard = new JButton();
 		btnGameBoard.setEnabled(false);
 		btnGameBoard.setBackground(new Color(255, 255, 255));
 		btnGameBoard.setIcon(new ImageIcon(Game.class.getResource("/resources/finalboard.png")));
-		btnGameBoard.setBounds(21, 82, 789, 472);
-		contentPane.add(btnGameBoard);
+		btnGameBoard.setBounds(21, 82, 7ss89, 372);
+		contentPane.add(btnGameBoard);*/
 
 		//TODO: We gonna need to update the board here also its gonna be a pain
 		timer = new Timer(2500, new ActionListener() {

@@ -353,6 +353,20 @@ public class ServerLobby {
 								ByteBuffer send = ByteBuffer.wrap(ba);
 								cchannel.write(send);
 							}
+							
+							else if(line.equalsIgnoreCase("PlayerName\n")){
+								String playerName = " ";
+								String cleanMessage = getPort(cchannel);
+								User[] users = db.getUserDB();
+								for (int i = 0; i < users.length; i++) {
+									if (users[i].getPortNumber() == Integer.parseInt(cleanMessage))
+										playerName = users[i].getUsername();
+								}
+								playerName = playerName + "\n";
+								byte[] ba = playerName.getBytes("ISO-8859-1");
+								ByteBuffer send = ByteBuffer.wrap(ba);
+								cchannel.write(send);
+							}
 
 							// this was just for testing shit you should never
 							// send the wrong string "DONT FORGET NEW LINES "/n"

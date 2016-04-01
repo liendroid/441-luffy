@@ -150,4 +150,11 @@ public class Client {
 		return this.roomMessages;
 	}
 
+	public String getName() throws IOException {
+		String message = "PlayerName\n";
+		outBuffer.write(message.getBytes());
+		String playerName = inBuffer.readLine();
+		return playerName;
+	}
+
 }
