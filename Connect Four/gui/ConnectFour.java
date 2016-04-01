@@ -24,6 +24,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.ListDataListener;
 
 import network.TestClientForDan;
+import network.User;
+import network.UserDB;
 import network.Client;
 import javax.swing.JScrollPane;
 import java.awt.event.WindowAdapter;
@@ -33,7 +35,6 @@ public class ConnectFour extends JFrame {
 	private JPanel contentPane;
 	private JTextField usernameTxtfield;
 	private JPasswordField passwordTxtfield;
-	private JLabel lblSignUp;
 	private JTextField chatTxtField;
 	private Client client = null;
 	private JTextField IPTxtField;
@@ -43,6 +44,7 @@ public class ConnectFour extends JFrame {
 	private JList<String> gamesLobbyList;
 	private DefaultListModel<String> players;
 	private Timer timer;
+	private UserDB uDB;
 
 	private String playerName;
 
@@ -66,6 +68,7 @@ public class ConnectFour extends JFrame {
 	 * Create the frame.
 	 */
 	public ConnectFour() {
+		uDB = new UserDB();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		setBounds(100, 100, 996, 742);
@@ -76,6 +79,7 @@ public class ConnectFour extends JFrame {
 
 		initMainMenu();
 		initGameLobby();
+	
 	}
 
 	public void initMainMenu() {
@@ -116,23 +120,11 @@ public class ConnectFour extends JFrame {
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				switchCards();
-				timer.start();
 			}
 		});
 		btnLogin.setFont(new Font("Roboto Condensed", Font.PLAIN, 17));
 		btnLogin.setBounds(205, 370, 100, 35);
 		mainMenuPanel.add(btnLogin);
-
-		lblSignUp = new JLabel("Sign Up");
-		lblSignUp.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				switchCards();
-			}
-		});
-		lblSignUp.setFont(new Font("Roboto Condensed", Font.PLAIN, 20));
-		lblSignUp.setBounds(77, 375, 74, 22);
-		mainMenuPanel.add(lblSignUp);
 
 		JLabel lblIpaddress = new JLabel("IPAddress");
 		lblIpaddress.setForeground(new Color(51, 153, 204));
@@ -333,6 +325,21 @@ public class ConnectFour extends JFrame {
 
 	}
 
+	public boolean login(String username, String password)
+	{
+		User[] users = uDB.getUserDB();
+		for(int i = 0; i < users.length; i++)
+		{
+			String user = users[i].getUsername();
+			String pw = users[i].getPassword();
+			if(user.equals(username) && pw.equals(password))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public void switchCards() {
 		boolean userEmpty = usernameTxtfield.getText().isEmpty();
 		char[] pw = passwordTxtfield.getPassword();
@@ -344,16 +351,28 @@ public class ConnectFour extends JFrame {
 		if (!userEmpty && !pwEmpty && !ipEmpty && !portEmpty) {
 			int portNumber = Integer.parseInt(portNumberTxtField.getText());
 			try {
-				client = new Client(ipAddress, portNumber);
-				client.login();
+				
+				boolean loginSuccess = login(usernameTxtfield.getText(), fullPw);
+				if(loginSuccess)
+				{
+					client = new Client(ipAddress, portNumber);
+					client.login();
+					
+					playerName = usernameTxtfield.getText();
 
-				playerName = usernameTxtfield.getText();
+					CardLayout cLayout = (CardLayout) contentPane.getLayout();
 
-				CardLayout cLayout = (CardLayout) contentPane.getLayout();
-
-				// populate the the games and current players
-				cLayout.show(contentPane, "gameLobbyCard");
-			} catch (Exception e) {
+					// populate the the games and current players
+					cLayout.show(contentPane, "gameLobbyCard");
+					timer.start();
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "Login failed.");
+				}
+				
+			} 
+			catch (Exception e) {
 				JOptionPane.showMessageDialog(null, e);
 			}
 		} else if (userEmpty) {
@@ -368,9 +387,6 @@ public class ConnectFour extends JFrame {
 			JOptionPane.showMessageDialog(null,
 					"Well this is embarrassing. I don't know what is wrong. Try again please. D:");
 		}
-	}
-
-	public void populatePlayers() {
 	}
 
 	public void logout() {
