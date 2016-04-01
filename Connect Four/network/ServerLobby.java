@@ -30,9 +30,10 @@ public class ServerLobby {
 		InetSocketAddress isa = new InetSocketAddress(Integer.parseInt(args[0]));
 		channel.socket().bind(isa);
 		channel.register(selector, SelectionKey.OP_ACCEPT);
-		ArrayList<String> ports = new ArrayList<String>();
+		ArrayList<String> players = new ArrayList<String>();
 		ArrayList<Room> rooms = new ArrayList<Room>();
 		ArrayList<String> serverMessages = new ArrayList<String>();
+		UserDB db = new UserDB();
 
 		try {
 			while (true) {
@@ -85,8 +86,14 @@ public class ServerLobby {
 															// the socket
 							{
 								String message = getPort(cchannel);
-								ports.remove(message);
-								key.cancel();
+								User[] users = db.getUserDB();
+								for(int i =0; i<users.length; i++){
+									if(users[i].getPortNumber() == Integer.parseInt(message)){
+										players.remove(users[i].getUsername());
+										key.cancel();		
+									}
+										
+								}
 							}
 							/*
 							 * every player that connects to the server should
@@ -105,21 +112,35 @@ public class ServerLobby {
 							 * string if there is no one else but you in the
 							 * lobby
 							 */
-							else if (line.equals("login\n")) {
+							else if (line.contains("login\n")){
+								String[] messageInfo = line.split("");
+								String playerName = messageInfo[1].trim();
+								System.out.println(playerName);
 								String cleanMessage = getPort(cchannel);
+								User[] users = db.getUserDB();
+								for(int i =0; i < users.length; i++){
+									if(users[i].getUsername().equals(playerName))
+										users[i].setPortNumber(Integer.parseInt(cleanMessage));
+								}
 
 								// if the port is not itself send it back
 								System.out.println("login accepted");
-								ports.add(cleanMessage);
+								players.add(playerName);
 							}
 							// refreshes everything
 							else if (line.equals("refresh\n")) {
+								String playerName = " ";
 								String cleanMessage = getPort(cchannel);
+								User[] users = db.getUserDB();
+								for(int i = 0; i<users.length;i++){
+									if(users[i].getPortNumber() == Integer.parseInt(cleanMessage))
+										playerName = users[i].getUsername();
+								}
 								// if the port is not itself send it back
 								String list = "PLAYERS[";
-								for (int i = 0; i < ports.size(); i++) {
-									if (!ports.get(i).equals(cleanMessage))
-										list += ports.get(i) + ",";
+								for (int i = 0; i < players.size(); i++) {
+									if (!players.get(i).equals(playerName))
+										list += players.get(i) + ",";
 								}
 								list = list + " [ROOMS[ ";
 								for (int i = 0; i < rooms.size(); i++) {

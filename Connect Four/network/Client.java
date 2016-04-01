@@ -36,9 +36,9 @@ public class Client {
 		clientSocket.close();
 	}
 
-	public void login() throws IOException {
+	public void login(String playerName) throws IOException {
 		// needs to check the db and verify user creds
-		String line = "login\n";
+		String line = "login" + playerName + "\n";
 		outBuffer.write(line.getBytes("ISO-8859-1"));
 	}
 

@@ -355,10 +355,11 @@ public class ConnectFour extends JFrame {
 				boolean loginSuccess = login(usernameTxtfield.getText(), fullPw);
 				if(loginSuccess)
 				{
-					client = new Client(ipAddress, portNumber);
-					client.login();
 					
 					playerName = usernameTxtfield.getText();
+					
+					client = new Client(ipAddress, portNumber);
+					client.login(playerName);
 
 					CardLayout cLayout = (CardLayout) contentPane.getLayout();
 
