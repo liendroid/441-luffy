@@ -1,5 +1,8 @@
 package gui;
 
+import gameLogic.GameBoard;
+import gameLogic.GameLogic;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -17,18 +20,22 @@ import javax.swing.JTextField;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.JButton;
+
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.List;
 import java.lang.reflect.Array;
 
 import javax.swing.JList;
+
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
+
 import javax.swing.ImageIcon;
+
 import java.awt.Color;
 
 public class Game extends JFrame {
@@ -37,13 +44,23 @@ public class Game extends JFrame {
 	private JTextField gameChatTxtField;
 	private String[] activePlayers;
 	private Timer timer;
-
+	private char[][] board;
+	private boolean validMove;
+	private boolean winCondition;
+	private boolean draw;
 	/**
 	 * Create the frame.
 	 * 
 	 * @param client
 	 */
+	
 	public Game(Client client) {
+		
+		
+		GameBoard gameBoard = new GameBoard();
+		this.board = gameBoard.getBoard();
+		GameLogic logic = new GameLogic();
+		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 996, 742);
 		contentPane = new JPanel();
@@ -328,7 +345,44 @@ public class Game extends JFrame {
 				// TODO: Tell the server Column 1 was selected
 				// once the server tells you what button is needed, you have to
 				// change the icon. like so.
-				btn70.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+
+				if(board[5][0] == '.'){
+					board[5][0] = 'R';
+					btn70.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+					
+				}
+				else if(board[4][0] == '.'){
+					board[4][0] = 'R';
+					btn60.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[3][0] == '.'){
+					board[3][0] = 'R';
+					btn50.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[2][0] == '.'){
+					board[2][0] = 'R';
+					btn40.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[1][0] == '.'){
+					board[1][0] = 'R';
+					btn30.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[0][0] == '.'){
+					board[0][0] = 'R';
+					btn20.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				/*
+				if(logic.checkWin(board, 'R'))
+					//stop game
+				else if(logic.checkDraw(board))
+					//stop game
+				*/
 			}
 		});
 		btnCol0.setBounds(62, 48, 39, 23);
@@ -341,10 +395,43 @@ public class Game extends JFrame {
 
 				// this is sample code on how to set the icon backgrounds.
 				// Remove this.
-				if (btn71.getIcon() != null) {
-					btn71.setIcon(null);
+				if(board[5][1] == '.'){
+					board[5][1] = 'R';
+					btn71.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
 				}
-				btn71.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+				else if(board[4][1] == '.'){
+					board[4][1] = 'R';
+					btn61.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[3][1] == '.'){
+					board[3][1] = 'R';
+					btn51.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[2][1] == '.'){
+					board[2][1] = 'R';
+					btn41.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[1][1] == '.'){
+					board[1][1] = 'R';
+					btn31.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[0][1] == '.'){
+					board[0][1] = 'R';
+					btn21.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}	
+				//btn71.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+				/*
+				if(logic.checkWin(board, 'R'))
+					//stop game
+				else if(logic.checkDraw(board))
+					//stop game
+				*/
 
 			}
 		});
@@ -354,7 +441,42 @@ public class Game extends JFrame {
 		JButton btnCol2 = new JButton("");
 		btnCol2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO: Tell the server Column 3 was selected
+				if(board[5][2] == '.'){
+					board[5][2] = 'R';
+					btn72.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[4][2] == '.'){
+					board[4][2] = 'R';
+					btn62.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[3][2] == '.'){
+					board[3][2] = 'R';
+					btn52.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[2][2] == '.'){
+					board[2][2] = 'R';
+					btn42.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[1][2] == '.'){
+					board[1][2] = 'R';
+					btn32.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[0][2] == '.'){
+					board[0][2] = 'R';
+					btn22.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}	
+				/*
+				if(logic.checkWin(board, 'R'))
+					//stop game
+				else if(logic.checkDraw(board))
+					//stop game
+				*/
 			}
 		});
 		btnCol2.setBounds(249, 48, 39, 23);
@@ -363,7 +485,42 @@ public class Game extends JFrame {
 		JButton btnCol3 = new JButton("");
 		btnCol3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO: Tell the server Column 4 was selected
+				if(board[5][3] == '.'){
+					board[5][3] = 'R';
+					btn73.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[4][3] == '.'){
+					board[4][3] = 'R';
+					btn63.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[3][3] == '.'){
+					board[3][3] = 'R';
+					btn53.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[2][3] == '.'){
+					board[2][3] = 'R';
+					btn43.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[1][3] == '.'){
+					board[1][3] = 'R';
+					btn33.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[0][3] == '.'){
+					board[0][3] = 'R';
+					btn23.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}	
+				/*
+				if(logic.checkWin(board, 'R'))
+					//stop game
+				else if(logic.checkDraw(board))
+					//stop game
+				*/
 			}
 		});
 		btnCol3.setBounds(345, 48, 39, 23);
@@ -372,7 +529,42 @@ public class Game extends JFrame {
 		JButton btnCol4 = new JButton("");
 		btnCol4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO: Tell the server Column 5 was selected
+				if(board[5][4] == '.'){
+					board[5][4] = 'R';
+					btn74.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[4][4] == '.'){
+					board[4][4] = 'R';
+					btn64.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[3][4] == '.'){
+					board[3][4] = 'R';
+					btn54.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[2][4] == '.'){
+					board[2][4] = 'R';
+					btn44.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[1][4] == '.'){
+					board[1][4] = 'R';
+					btn34.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[0][4] == '.'){
+					board[0][4] = 'R';
+					btn24.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}	
+				/*
+				if(logic.checkWin(board, 'R'))
+					//stop game
+				else if(logic.checkDraw(board))
+					//stop game
+				*/
 			}
 		});
 		btnCol4.setBounds(432, 48, 39, 23);
@@ -381,7 +573,42 @@ public class Game extends JFrame {
 		JButton btnCol5 = new JButton("");
 		btnCol5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO: Tell the server Column 6 was selected
+				if(board[5][5] == '.'){
+					board[5][5] = 'R';
+					btn75.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[4][5] == '.'){
+					board[4][5] = 'R';
+					btn65.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[3][5] == '.'){
+					board[3][5] = 'R';
+					btn55.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[2][5] == '.'){
+					board[2][5] = 'R';
+					btn45.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[1][5] == '.'){
+					board[1][5] = 'R';
+					btn35.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[0][5] == '.'){
+					board[0][5] = 'R';
+					btn25.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}	
+				/*
+				if(logic.checkWin(board, 'R'))
+					//stop game
+				else if(logic.checkDraw(board))
+					//stop game
+				*/
 			}
 		});
 		btnCol5.setBounds(531, 48, 39, 23);
@@ -390,7 +617,42 @@ public class Game extends JFrame {
 		JButton btnCol6 = new JButton("");
 		btnCol6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO: Tell the server Column 7 was selected
+				if(board[5][6] == '.'){
+					board[5][6] = 'R';
+					btn76.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[4][6] == '.'){
+					board[4][6] = 'R';
+					btn66.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[3][6] == '.'){
+					board[3][6] = 'R';
+					btn56.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[2][6] == '.'){
+					board[2][6] = 'R';
+					btn46.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[1][6] == '.'){
+					board[1][6] = 'R';
+					btn36.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[0][6] == '.'){
+					board[0][6] = 'R';
+					btn26.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}	
+				/*
+				if(logic.checkWin(board, 'R'))
+					//stop game
+				else if(logic.checkDraw(board))
+					//stop game
+				*/
 			}
 		});
 		btnCol6.setBounds(640, 48, 39, 23);
@@ -399,7 +661,42 @@ public class Game extends JFrame {
 		JButton btnCol7 = new JButton("");
 		btnCol7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO: Tell the server Column 8 was selected
+				if(board[5][7] == '.'){
+					board[5][7] = 'R';
+					btn77.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[4][7] == '.'){
+					board[4][7] = 'R';
+					btn67.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[3][7] == '.'){
+					board[3][7] = 'R';
+					btn57.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[2][7] == '.'){
+					board[2][7] = 'R';
+					btn47.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[1][7] == '.'){
+					board[1][7] = 'R';
+					btn37.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}
+				else if(board[0][7] == '.'){
+					board[0][7] = 'R';
+					btn27.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					
+				}	
+				/*
+				if(logic.checkWin(board, 'R'))
+					//stop game
+				else if(logic.checkDraw(board))
+					//stop game
+				*/
 			}
 		});
 		btnCol7.setBounds(736, 48, 39, 23);
