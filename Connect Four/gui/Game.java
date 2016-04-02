@@ -894,7 +894,7 @@ public class Game extends JFrame {
 		 */
 
 		// TODO: We gonna need to update the board here also its gonna be a pain
-		timer = new Timer(2500, new ActionListener() {
+		timer = new Timer(1000, new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// if all the panes we are refreshing are not empty clear them
 
