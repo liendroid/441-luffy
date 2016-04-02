@@ -262,7 +262,7 @@ public class ConnectFour extends JFrame {
 		// JButton btnRefresh = new JButton("Refresh");
 		// btnRefresh.addActionListener(new ActionListener() {
 		// refresh timer
-		timer = new Timer(2500, new ActionListener() {
+		timer = new Timer(1000, new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (!players.isEmpty())
 					players.clear();
