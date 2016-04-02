@@ -166,7 +166,7 @@ public class ConnectFour extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					// timer.stop();
-					Game newGame = new Game(client);
+					Game newGame = new Game(client, false);
 					newGame.setVisible(true);
 					client.createGame(playerName);
 				} catch (IOException e) {
@@ -200,7 +200,7 @@ public class ConnectFour extends JFrame {
 					}
 				}
 				// timer.stop();
-				Game joinGame = new Game(client);
+				Game joinGame = new Game(client, false);
 				joinGame.setVisible(true);
 			}
 		});
@@ -306,14 +306,13 @@ public class ConnectFour extends JFrame {
 						try {
 							client.spectateGame(choice);
 						} catch (IOException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 						break;
 					}
 				}
 				// timer.stop();
-				Game spectateGame = new Game(client);
+				Game spectateGame = new Game(client, true);
 				spectateGame.setVisible(true);
 			}
 		});

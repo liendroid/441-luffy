@@ -14,7 +14,7 @@ public class Room {
 	boolean joinable = true;
 	ArrayList<String> spectators = new ArrayList<String>();
 	ArrayList<String> roomMessages = new ArrayList<String>();
-	GameBoard board;
+	GameBoard board = new GameBoard();
 
 	Room(String player) {
 		player1 = player;

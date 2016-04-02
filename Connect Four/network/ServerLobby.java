@@ -37,7 +37,7 @@ public class ServerLobby {
 
 		try {
 			while (true) {
-				if (selector.select(500) < 0) // moniter registered sockets
+				if (selector.select(500) < 0) // monitor registered sockets
 					System.exit(1);
 				// get set of ready sockets
 				Set readyKeys = selector.selectedKeys();
@@ -354,7 +354,49 @@ public class ServerLobby {
 								cchannel.write(send);
 							}
 							
-							else if(line.equalsIgnoreCase("PlayerName\n")){
+							else if(line.equals("PlayerName\n")){
+								String playerName = " ";
+								String cleanMessage = getPort(cchannel);
+								User[] users = db.getUserDB();
+								for (int i = 0; i < users.length; i++) {
+									if (users[i].getPortNumber() == Integer.parseInt(cleanMessage)){
+										playerName = users[i].getUsername();
+									}
+										
+								}
+								String role = " ";
+								int turn = 1;
+								for(int i = 0; i< rooms.size(); i++){
+									if(rooms.get(i).player1.equals(playerName)){
+										role = "player1";
+										turn = rooms.get(i).turn;
+									}
+									else if(rooms.get(i).player2.equals(playerName)){
+										role = "player2";
+										turn = rooms.get(i).turn;
+									}
+									for(int h = 0; h< rooms.get(i).spectators.size(); h++){
+										if(rooms.get(i).spectators.get(h).equals(playerName)){
+											role = "spectator";
+											turn = rooms.get(i).turn;
+										}
+									}
+								}
+								
+
+								playerName = playerName + " " + role + " " + turn +  "\n";
+								byte[] ba = playerName.getBytes("ISO-8859-1");
+								ByteBuffer send = ByteBuffer.wrap(ba);
+								cchannel.write(send);
+							}
+							
+							else if(line.contains("Move")){
+								String[] messageInfo = line.split(" ");
+								char token = messageInfo[1].trim().charAt(0);
+								String row = messageInfo[2].trim();
+								String column = messageInfo[3].trim();
+								
+								// finding the playerName
 								String playerName = " ";
 								String cleanMessage = getPort(cchannel);
 								User[] users = db.getUserDB();
@@ -362,10 +404,66 @@ public class ServerLobby {
 									if (users[i].getPortNumber() == Integer.parseInt(cleanMessage))
 										playerName = users[i].getUsername();
 								}
-								playerName = playerName + "\n";
-								byte[] ba = playerName.getBytes("ISO-8859-1");
+								
+								// find the correct room to send data for
+								int currentRoom = 0;
+								for (int i = 0; i < rooms.size(); i++) {
+									if (rooms.get(i).player1.equals(playerName)
+											|| rooms.get(i).player2.equals(playerName))
+										currentRoom = i;
+									else {
+										for (int h = 0; h < rooms.get(i).spectators.size(); h++) {
+											if (rooms.get(i).spectators.get(h).equals(playerName))
+												currentRoom = i;
+										}
+									}
+								}
+								// current room we are inside
+								Room room = rooms.get(currentRoom);
+								room.board.board[Integer.parseInt(row)][Integer.parseInt(column)] = token;
+								System.out.println(row + " " + column);
+								room.turn = 1-room.turn;
+								System.out.println(room.turn);
+							}
+							
+							else if(line.equals("getBoard\n")){
+								// finding the playerName
+								String playerName = " ";
+								String cleanMessage = getPort(cchannel);
+								User[] users = db.getUserDB();
+								for (int i = 0; i < users.length; i++) {
+									if (users[i].getPortNumber() == Integer.parseInt(cleanMessage))
+										playerName = users[i].getUsername();
+								}
+								
+								// find the correct room to send data for
+								int currentRoom = 0;
+								for (int i = 0; i < rooms.size(); i++) {
+									if (rooms.get(i).player1.equals(playerName)
+											|| rooms.get(i).player2.equals(playerName))
+										currentRoom = i;
+									else {
+										for (int h = 0; h < rooms.get(i).spectators.size(); h++) {
+											if (rooms.get(i).spectators.get(h).equals(playerName))
+												currentRoom = i;
+										}
+									}
+								}
+								// current room we are inside
+								Room room = rooms.get(currentRoom);
+								char[][] board = room.board.board;
+								//change the 2D characters array into a string
+								String parse = " ";
+								for(int i = 0; i < board.length; i++){
+									for(int l = 0; l <board[i].length; l++){
+										parse += board[i][l] + ",";
+									}
+								}
+								parse = parse.trim() + "\n";
+								byte[] ba = parse.getBytes("ISO-8859-1");
 								ByteBuffer send = ByteBuffer.wrap(ba);
 								cchannel.write(send);
+								System.out.println(parse);
 							}
 
 							// this was just for testing shit you should never

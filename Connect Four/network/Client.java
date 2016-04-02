@@ -153,8 +153,40 @@ public class Client {
 	public String getName() throws IOException {
 		String message = "PlayerName\n";
 		outBuffer.write(message.getBytes());
-		String playerName = inBuffer.readLine();
-		return playerName;
+		String line = inBuffer.readLine();
+		return line;
+	}
+
+	public void sendRoomData(char token, int row, int column) throws IOException {
+		String message = "Move " + token + " " + row + " " + column + "\n";
+		outBuffer.write(message.getBytes());
+	}
+
+	public char[][] getBoard() throws IOException {
+		String message = "getBoard\n";
+		System.out.println("board sent");
+		outBuffer.write(message.getBytes());
+		String line = inBuffer.readLine();
+		System.out.println(line + " Board received");
+		//parse the line into a character array
+		line = line.trim();
+		String[] array = line.split(",");
+		char[][] Board = new char[6][7];
+		int counter = 0;
+		for(int i = 0; i<6; i++){
+			for(int l= 0; l<7; l++){
+				Board[i][l] = array[counter].charAt(0);
+				counter++;
+			}
+		}
+		//print the board
+		/*String parse = " ";
+		for(int i = 0; i < Board.length; i++){
+			for(int l = 0; l <Board[i].length; l++){
+				parse += Board[i][l] + ",";
+			}
+		}*/
+		return Board;
 	}
 
 }
