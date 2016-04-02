@@ -27,6 +27,7 @@ import java.awt.List;
 import java.lang.reflect.Array;
 
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -884,13 +885,6 @@ public class Game extends JFrame {
 		});
 		btnCol6.setBounds(636, 115, 39, 23);
 		contentPane.add(btnCol6);
-		
-		JLabel lblPlayerTurn = new JLabel("");
-		lblPlayerTurn.setForeground(new Color(51, 153, 204));
-		lblPlayerTurn.setFont(new Font("Bebas Neue Regular", Font.PLAIN, 50));
-		lblPlayerTurn.setBounds(206, 26, 329, 56);
-		contentPane.add(lblPlayerTurn);
-
 		/*
 		 * JButton btnGameBoard = new JButton(); btnGameBoard.setEnabled(false);
 		 * btnGameBoard.setBackground(new Color(255, 255, 255));
@@ -899,6 +893,11 @@ public class Game extends JFrame {
 		 * btnGameBoard.setBounds(21, 82, 7ss89, 372);
 		 * contentPane.add(btnGameBoard);
 		 */
+		JLabel lblPlayerTurn = new JLabel("");
+		lblPlayerTurn.setForeground(new Color(51, 153, 204));
+		lblPlayerTurn.setFont(new Font("Bebas Neue Regular", Font.PLAIN, 50));
+		lblPlayerTurn.setBounds(206, 26, 329, 56);
+		contentPane.add(lblPlayerTurn);
 
 		// TODO: We gonna need to update the board here also its gonna be a pain
 		timer = new Timer(1000, new ActionListener() {
@@ -925,6 +924,110 @@ public class Game extends JFrame {
 					// receive the updated board and draw it
 					board = client.getBoard();
 					drawBoard();
+
+					// getting info
+					String playerID = " ";
+					try {
+						playerID = client.getName();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					String playerName = playerID.split(" ")[0].trim();
+					String role = playerID.split(" ")[1].trim();
+					String turn = playerID.split(" ")[2].trim();
+
+					// we are a player
+					if (!gameState) {
+						if (role.equals("player1") && turn.equals("1")) {
+							lblPlayerTurn.setForeground(new Color(51, 153, 204));
+							lblPlayerTurn.setText("YOUR TURN");
+							btnCol1.setEnabled(true);
+							btnCol2.setEnabled(true);
+							btnCol3.setEnabled(true);
+							btnCol4.setEnabled(true);
+							btnCol5.setEnabled(true);
+							btnCol6.setEnabled(true);
+							btnCol0.setEnabled(true);
+						} else if (role.equals("player1") && turn.equals("0")) {
+							lblPlayerTurn.setForeground(new Color(200, 10, 10));
+							lblPlayerTurn.setText("OPPONENTS TURN");
+							btnCol1.setEnabled(false);
+							btnCol2.setEnabled(false);
+							btnCol3.setEnabled(false);
+							btnCol4.setEnabled(false);
+							btnCol5.setEnabled(false);
+							btnCol6.setEnabled(false);
+							btnCol0.setEnabled(false);
+						} else if (role.equals("player2") && turn.equals("0")) {
+							lblPlayerTurn.setForeground(new Color(200, 10, 10));
+							lblPlayerTurn.setText("YOUR TURN");
+							btnCol1.setEnabled(true);
+							btnCol2.setEnabled(true);
+							btnCol3.setEnabled(true);
+							btnCol4.setEnabled(true);
+							btnCol5.setEnabled(true);
+							btnCol6.setEnabled(true);
+							btnCol0.setEnabled(true);
+						} else if (role.equals("player2") && turn.equals("1")) {
+							lblPlayerTurn.setForeground(new Color(51, 153, 204));
+							lblPlayerTurn.setText("OPPONENTS TURN");
+							btnCol1.setEnabled(false);
+							btnCol2.setEnabled(false);
+							btnCol3.setEnabled(false);
+							btnCol4.setEnabled(false);
+							btnCol5.setEnabled(false);
+							btnCol6.setEnabled(false);
+							btnCol0.setEnabled(false);
+						}
+						// we are a spectator
+					} else {
+						if (turn.equals("0")) {
+							lblPlayerTurn.setForeground(new Color(200, 10, 10));
+							lblPlayerTurn.setText("PLAYER(2) TURN");
+							btnCol1.setEnabled(false);
+							btnCol2.setEnabled(false);
+							btnCol3.setEnabled(false);
+							btnCol4.setEnabled(false);
+							btnCol5.setEnabled(false);
+							btnCol6.setEnabled(false);
+							btnCol0.setEnabled(false);
+						} else if (turn.equals("1")) {
+							lblPlayerTurn.setForeground(new Color(51, 153, 204));
+							lblPlayerTurn.setText("PLAYER(1) TURN");
+							btnCol1.setEnabled(false);
+							btnCol2.setEnabled(false);
+							btnCol3.setEnabled(false);
+							btnCol4.setEnabled(false);
+							btnCol5.setEnabled(false);
+							btnCol6.setEnabled(false);
+							btnCol0.setEnabled(false);
+						}
+					}
+					if(logic.checkWin(board, 'R')){
+						//player 2 wins
+						JOptionPane.showMessageDialog(null,"Player 2 wins");
+						timer.stop();
+						btnCol1.setEnabled(false);
+						btnCol2.setEnabled(false);
+						btnCol3.setEnabled(false);
+						btnCol4.setEnabled(false);
+						btnCol5.setEnabled(false);
+						btnCol6.setEnabled(false);
+						btnCol0.setEnabled(false);
+						
+					}
+					if(logic.checkWin(board, 'B')){
+						//player 1 wins
+						JOptionPane.showMessageDialog(null,"Player 1 wins");
+						timer.stop();
+						btnCol1.setEnabled(false);
+						btnCol2.setEnabled(false);
+						btnCol3.setEnabled(false);
+						btnCol4.setEnabled(false);
+						btnCol5.setEnabled(false);
+						btnCol6.setEnabled(false);
+						btnCol0.setEnabled(false);
+					}
 
 				} catch (IOException e) {
 					e.printStackTrace();

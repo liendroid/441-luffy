@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 
+import gameLogic.GameLogic;
+
 public class ServerLobby {
 
 	public static void main(String[] args) throws IOException {
@@ -126,6 +128,7 @@ public class ServerLobby {
 
 							// refreshes everything
 							else if (line.equals("refresh\n")) {
+									
 								String playerName = " ";
 								String cleanMessage = getPort(cchannel);
 								User[] users = db.getUserDB();
@@ -220,6 +223,7 @@ public class ServerLobby {
 									game.joinable = false;
 
 							} else if (line.contains("Leave")) {
+								GameLogic logic = new GameLogic();
 								String[] roomInfo = line.split(" ");
 								String port = roomInfo[1].trim();
 								User[] users = db.getUserDB();
@@ -230,6 +234,7 @@ public class ServerLobby {
 								}
 								System.out.println(playerName);
 								// need to find the right room
+								Boolean spectate = false;
 								for (int i = 0; i < rooms.size(); i++) {
 									Room game = rooms.get(i);
 									if (game.player1.equals(playerName)) {
@@ -241,8 +246,17 @@ public class ServerLobby {
 									}
 									// remove them if they are a spectator
 									for (int h = 0; h < game.spectators.size(); h++) {
-										if (game.spectators.get(i).equals(playerName))
-											game.spectators.remove(playerName);
+										if (game.spectators.get(h).equals(playerName))
+											spectate = true;
+									}
+									if(spectate)
+										game.spectators.remove(playerName);
+									//if the game is empty and there is a winner remove it we don't need it no more
+									if(game.player1.equals(" ") && game.player2.equals(" ")){
+										if(logic.checkWin(game.board.board, 'R'))
+											rooms.remove(game);
+										else if(logic.checkWin(game.board.board, 'B'))
+											rooms.remove(game);
 									}
 								}
 							}
