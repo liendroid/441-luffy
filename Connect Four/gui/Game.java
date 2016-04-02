@@ -37,6 +37,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 
 import java.awt.Color;
+import javax.swing.JLabel;
 
 public class Game extends JFrame {
 
@@ -368,7 +369,7 @@ public class Game extends JFrame {
 				}
 			}
 		});
-		btnCol0.setBounds(62, 48, 39, 23);
+		btnCol0.setBounds(58, 115, 39, 23);
 		contentPane.add(btnCol0);
 
 		JButton btnCol1 = new JButton("");
@@ -454,7 +455,7 @@ public class Game extends JFrame {
 
 			}
 		});
-		btnCol1.setBounds(157, 48, 39, 23);
+		btnCol1.setBounds(153, 115, 39, 23);
 		contentPane.add(btnCol1);
 
 		JButton btnCol2 = new JButton("");
@@ -540,7 +541,7 @@ public class Game extends JFrame {
 				}
 			}
 		});
-		btnCol2.setBounds(249, 48, 39, 23);
+		btnCol2.setBounds(248, 115, 39, 23);
 		contentPane.add(btnCol2);
 
 		JButton btnCol3 = new JButton("");
@@ -625,7 +626,7 @@ public class Game extends JFrame {
 				}
 			}
 		});
-		btnCol3.setBounds(345, 48, 39, 23);
+		btnCol3.setBounds(348, 115, 39, 23);
 		contentPane.add(btnCol3);
 
 		JButton btnCol4 = new JButton("");
@@ -710,7 +711,7 @@ public class Game extends JFrame {
 				}
 			}
 		});
-		btnCol4.setBounds(432, 48, 39, 23);
+		btnCol4.setBounds(442, 115, 39, 23);
 		contentPane.add(btnCol4);
 
 		JButton btnCol5 = new JButton("");
@@ -795,7 +796,7 @@ public class Game extends JFrame {
 				}
 			}
 		});
-		btnCol5.setBounds(531, 48, 39, 23);
+		btnCol5.setBounds(545, 115, 39, 23);
 		contentPane.add(btnCol5);
 
 		JButton btnCol6 = new JButton("");
@@ -881,8 +882,14 @@ public class Game extends JFrame {
 				}
 			}
 		});
-		btnCol6.setBounds(640, 48, 39, 23);
+		btnCol6.setBounds(636, 115, 39, 23);
 		contentPane.add(btnCol6);
+		
+		JLabel lblPlayerTurn = new JLabel("");
+		lblPlayerTurn.setForeground(new Color(51, 153, 204));
+		lblPlayerTurn.setFont(new Font("Bebas Neue Regular", Font.PLAIN, 50));
+		lblPlayerTurn.setBounds(206, 26, 329, 56);
+		contentPane.add(lblPlayerTurn);
 
 		/*
 		 * JButton btnGameBoard = new JButton(); btnGameBoard.setEnabled(false);
@@ -925,217 +932,217 @@ public class Game extends JFrame {
 			}
 
 			// btn36.setIcon(new
-			// ImageIcon(Game.class.getResource("/resources/RedPiece.png")))
+			// ImageIcon(Game.class.getResource("/resources/pRed.png")))
 			private void drawBoard() {
 				if (board[0][6] == 'R')
-					btn26.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn26.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[0][6] == 'B')
-					btn26.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn26.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[0][5] == 'R')
-					btn25.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn25.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[0][5] == 'B')
-					btn25.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn25.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[0][4] == 'R')
-					btn24.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn24.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[0][4] == 'B')
-					btn24.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn24.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[0][3] == 'R')
-					btn23.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn23.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[0][3] == 'B')
-					btn23.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn23.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[0][2] == 'R')
-					btn22.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn22.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[0][2] == 'B')
-					btn22.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn22.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[0][1] == 'R')
-					btn21.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn21.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[0][1] == 'B')
-					btn21.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn21.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[0][0] == 'R')
-					btn20.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn20.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[0][0] == 'B')
-					btn20.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn20.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[1][6] == 'R')
-					btn36.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn36.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[1][6] == 'B')
-					btn36.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn36.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[1][5] == 'R')
-					btn35.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn35.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[1][5] == 'B')
-					btn35.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn35.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[1][4] == 'R')
-					btn34.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn34.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[1][4] == 'B')
-					btn34.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn34.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[1][3] == 'R')
-					btn33.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn33.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[1][3] == 'B')
-					btn33.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn33.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[1][2] == 'R')
-					btn32.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn32.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[1][2] == 'B')
-					btn32.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn32.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[1][1] == 'R')
-					btn31.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn31.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[1][1] == 'B')
-					btn31.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn31.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[1][0] == 'R')
-					btn30.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn30.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[1][0] == 'B')
-					btn30.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn30.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[2][6] == 'R')
-					btn46.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn46.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[2][6] == 'B')
-					btn46.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn46.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[2][5] == 'R')
-					btn45.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn45.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[2][5] == 'B')
-					btn45.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn45.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[2][4] == 'R')
-					btn44.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn44.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[2][4] == 'B')
-					btn44.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn44.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[2][3] == 'R')
-					btn43.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn43.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[2][3] == 'B')
-					btn43.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn43.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[2][2] == 'R')
-					btn42.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn42.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[2][2] == 'B')
-					btn42.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn42.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[2][1] == 'R')
-					btn41.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn41.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[2][1] == 'B')
-					btn41.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn41.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[2][0] == 'R')
-					btn40.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn40.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[2][0] == 'B')
-					btn40.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn40.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[3][6] == 'R')
-					btn56.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn56.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[3][6] == 'B')
-					btn56.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn56.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[3][5] == 'R')
-					btn55.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn55.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[3][5] == 'B')
-					btn55.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn55.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[3][4] == 'R')
-					btn54.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn54.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[3][4] == 'B')
-					btn54.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn54.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[3][3] == 'R')
-					btn53.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn53.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[3][3] == 'B')
-					btn53.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn53.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[3][2] == 'R')
-					btn52.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn52.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[3][2] == 'B')
-					btn52.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn52.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[3][1] == 'R')
-					btn51.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn51.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[3][1] == 'B')
-					btn51.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn51.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[3][0] == 'R')
-					btn50.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn50.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[3][0] == 'B')
-					btn50.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn50.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[4][6] == 'R')
-					btn66.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn66.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[4][6] == 'B')
-					btn66.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn66.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[4][5] == 'R')
-					btn65.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn65.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[4][5] == 'B')
-					btn65.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn65.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[4][4] == 'R')
-					btn64.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn64.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[4][4] == 'B')
-					btn64.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn64.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[4][3] == 'R')
-					btn63.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn63.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[4][3] == 'B')
-					btn63.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn63.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[4][2] == 'R')
-					btn62.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn62.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[4][2] == 'B')
-					btn62.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn62.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[4][1] == 'R')
-					btn61.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn61.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[4][1] == 'B')
-					btn61.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn61.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[4][0] == 'R')
-					btn60.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn60.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[4][0] == 'B')
-					btn60.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn60.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[5][6] == 'R')
-					btn76.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn76.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[5][6] == 'B')
-					btn76.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn76.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[5][5] == 'R')
-					btn75.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn75.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[5][5] == 'B')
-					btn75.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn75.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[5][4] == 'R')
-					btn74.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn74.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[5][4] == 'B')
-					btn74.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn74.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[5][3] == 'R')
-					btn73.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn73.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[5][3] == 'B')
-					btn73.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn73.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[5][2] == 'R')
-					btn72.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn72.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[5][2] == 'B')
-					btn72.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn72.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[5][1] == 'R')
-					btn71.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn71.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[5][1] == 'B')
-					btn71.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn71.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 				if (board[5][0] == 'R')
-					btn70.setIcon(new ImageIcon(Game.class.getResource("/resources/RedPiece.png")));
+					btn70.setIcon(new ImageIcon(Game.class.getResource("/resources/pRed.png")));
 				if (board[5][0] == 'B')
-					btn70.setIcon(new ImageIcon(Game.class.getResource("/resources/BluePiece.png")));
+					btn70.setIcon(new ImageIcon(Game.class.getResource("/resources/PBlue.png")));
 
 			}
 		});
